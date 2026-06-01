@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { CATEGORY_IMAGES, PHONE, PRODUCTS, WHATSAPP, getProductBySlug } from "@/lib/products";
+import { CATEGORY_IMAGES, PHONE, PRODUCTS, WHATSAPP, getProductBySlug, type Product } from "@/lib/products";
 import { ArrowLeft, Check, MessageCircle, Phone, Leaf, ShieldCheck } from "lucide-react";
 
 export const Route = createFileRoute("/products/$slug")({
