@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import heroImg from "@/assets/hero-botanical.jpg";
 import leafSprig from "@/assets/leaf-sprig.png";
-import { CATEGORIES, PHONE, PRODUCTS, WHATSAPP, type Category } from "@/lib/products";
+import { CATEGORIES, CATEGORY_IMAGES, PHONE, PRODUCTS, WHATSAPP, type Category } from "@/lib/products";
 import { Phone, MessageCircle, MapPin, Leaf, Sparkles, ShieldCheck, HeartPulse } from "lucide-react";
 
 export const Route = createFileRoute("/")({
