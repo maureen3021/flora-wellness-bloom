@@ -162,7 +162,7 @@
     font-family: var(--font-body);
     background-image:
       linear-gradient(oklch(0.98 0.012 95 / 0.88), oklch(0.98 0.012 95 / 0.92)),
-      url('/src/assets/fruity-bg.jpg');
+      url('./assets/fruity-bg.jpg');
     background-attachment: fixed, fixed;
     background-size: cover, 720px auto;
     background-repeat: no-repeat, repeat;
