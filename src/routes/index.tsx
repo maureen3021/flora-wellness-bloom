@@ -227,19 +227,66 @@ function ProductsGrid({ items, active }: { items: typeof PRODUCTS; active: Categ
 }
 
 function About() {
+  const pillars = [
+    { title: "Quality & Safety", text: "All BF Suma products are carefully chosen to meet the highest standards of quality and safety." },
+    { title: "Our Mission", text: "To provide you with the best products to support your health journey." },
+    { title: "For Every Goal", text: "Immunity, mental clarity, sexual wellness, workout performance — BF Suma has you covered." },
+    { title: "What We Offer", text: "A wide range of supplements for all ages and health needs, selected for quality and effectiveness." },
+  ];
+  const reasons = [
+    { title: "Premium Ingredients", text: "Made from the highest quality, natural ingredients for maximum effectiveness." },
+    { title: "Scientifically Backed", text: "Each product is crafted on the latest research and tested for potency and purity." },
+    { title: "For Every Goal", text: "Boost immunity, sharpen focus, or power your workouts — we have a formula for it." },
+    { title: "Convenient & Affordable", text: "Reaching your health goals has never been easier. Never run out of essential nutrients." },
+    { title: "Start a Business & Earn", text: "Be your own boss — own a BF Suma distributorship and turn dreams into reality." },
+  ];
   return (
     <section id="about" className="relative py-24 mt-12">
       <div className="absolute inset-0 -z-10" style={{ background: "var(--gradient-botanical)", opacity: 0.5 }} />
-      <div className="mx-auto max-w-5xl px-6 text-center">
-        <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-muted-foreground mb-4">
-          <Leaf className="w-3.5 h-3.5 text-[var(--leaf)]" /> About BF Suma
-        </span>
-        <h2 className="font-display text-4xl md:text-5xl">Supplements for every need</h2>
-        <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
-          Founded in Los Angeles, BF Suma develops a premium range of botanical health and wellness products trusted in over 50 markets worldwide. From functional beverages to specialty supplements, every formula is crafted with the highest quality natural ingredients and backed by science.
-        </p>
-        <p className="mt-4 text-muted-foreground">
-          Your wellness transformation is just a supplement away.
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="text-center max-w-3xl mx-auto">
+          <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-muted-foreground mb-4">
+            <Leaf className="w-3.5 h-3.5 text-[var(--leaf)]" /> About BF Suma
+          </span>
+          <h2 className="font-display text-4xl md:text-5xl">Supplements for every need</h2>
+          <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
+            BF Suma supplements are made with the highest quality ingredients, designed to support your overall health and well-being. From functional beverages to specialty supplements, we have everything you need to feel your best.
+          </p>
+          <p className="mt-4 text-muted-foreground">
+            <strong className="text-foreground">Your health is our priority.</strong> Your wellness transformation is just a supplement away.
+          </p>
+        </div>
+
+        <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {pillars.map((p) => (
+            <div key={p.title} className="rounded-3xl bg-card border border-border/60 p-6 shadow-[var(--shadow-soft)]">
+              <span className="grid place-items-center w-10 h-10 rounded-xl bg-secondary text-primary mb-4">
+                <Leaf className="w-4 h-4" />
+              </span>
+              <h3 className="font-display text-lg font-semibold">{p.title}</h3>
+              <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">{p.text}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-20">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground mb-2">The difference</p>
+            <h3 className="font-display text-3xl md:text-4xl">Why choose BF Suma?</h3>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+            {reasons.map((r, i) => (
+              <div key={r.title} className="rounded-3xl bg-card/80 backdrop-blur border border-border/60 p-6 hover:-translate-y-1 transition">
+                <span className="text-xs text-[var(--gold)] font-semibold">0{i + 1}</span>
+                <h4 className="font-display text-lg font-semibold mt-2">{r.title}</h4>
+                <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">{r.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p className="mt-16 text-center font-display text-xl md:text-2xl text-foreground/80 italic max-w-3xl mx-auto">
+          "BF Suma Supplements — your trusted partner in achieving a healthier, more energetic, and balanced life."
         </p>
       </div>
     </section>
