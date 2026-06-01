@@ -1,3 +1,13 @@
+import immuneImg from "@/assets/products/immune.jpg";
+import sportImg from "@/assets/products/sport.jpg";
+import heartImg from "@/assets/products/heart.jpg";
+import fitImg from "@/assets/products/fit.jpg";
+import menImg from "@/assets/products/men.jpg";
+import kidsImg from "@/assets/products/kids.jpg";
+import womenImg from "@/assets/products/women.jpg";
+import livingImg from "@/assets/products/living.jpg";
+import othersImg from "@/assets/products/others.jpg";
+
 export type Product = {
   name: string;
   price: number;
@@ -16,6 +26,18 @@ export type Category =
   | "Suma Living"
   | "Others";
 
+export const CATEGORY_IMAGES: Record<Category, string> = {
+  "Immune Booster": immuneImg,
+  "Sport Fit": sportImg,
+  "Heart & Blood Fit": heartImg,
+  "Suma Fit": fitImg,
+  "Men's Power": menImg,
+  "Smart Kids": kidsImg,
+  "Women's Beauty": womenImg,
+  "Suma Living": livingImg,
+  "Others": othersImg,
+};
+
 export const CATEGORIES: { name: Category; blurb: string }[] = [
   { name: "Immune Booster", blurb: "Strengthen your natural defenses." },
   { name: "Sport Fit", blurb: "Performance, recovery & endurance." },
@@ -27,6 +49,7 @@ export const CATEGORIES: { name: Category; blurb: string }[] = [
   { name: "Suma Living", blurb: "Daily wellness essentials." },
   { name: "Others", blurb: "Specialty formulas & remedies." },
 ];
+
 
 export const PRODUCTS: Product[] = [
   { name: "X Power Man Plus Capsules", price: 6634, oldPrice: 7371, category: "Men's Power" },

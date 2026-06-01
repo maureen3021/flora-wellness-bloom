@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import heroImg from "@/assets/hero-botanical.jpg";
 import leafSprig from "@/assets/leaf-sprig.png";
-import { CATEGORIES, PHONE, PRODUCTS, WHATSAPP, type Category } from "@/lib/products";
+import { CATEGORIES, CATEGORY_IMAGES, PHONE, PRODUCTS, WHATSAPP, type Category } from "@/lib/products";
 import { Phone, MessageCircle, MapPin, Leaf, Sparkles, ShieldCheck, HeartPulse } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -188,16 +188,24 @@ function ProductsGrid({ items, active }: { items: typeof PRODUCTS; active: Categ
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {items.map((p) => (
-          <article key={p.name} className="group rounded-3xl bg-card border border-border/60 p-6 shadow-[var(--shadow-soft)] hover:-translate-y-1 hover:shadow-[var(--shadow-bloom)] transition flex flex-col">
-            <div className="relative aspect-square rounded-2xl mb-5 overflow-hidden" style={{ background: "var(--gradient-botanical)" }}>
-              <img src={leafSprig} alt="" aria-hidden className="absolute inset-0 w-full h-full object-contain opacity-70 group-hover:scale-110 transition duration-700" loading="lazy" />
-              <span className="absolute top-3 left-3 text-[10px] uppercase tracking-wider bg-background/80 backdrop-blur px-2.5 py-1 rounded-full">{p.category}</span>
+          <article key={p.name} className="group rounded-3xl bg-card border border-border/60 p-5 shadow-[var(--shadow-soft)] hover:-translate-y-1 hover:shadow-[var(--shadow-bloom)] transition flex flex-col">
+            <div className="relative aspect-square rounded-2xl mb-5 overflow-hidden bg-secondary">
+              <img
+                src={CATEGORY_IMAGES[p.category]}
+                alt={p.name}
+                width={768}
+                height={768}
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-700"
+              />
+              <span className="absolute top-3 left-3 text-[10px] uppercase tracking-wider bg-background/85 backdrop-blur px-2.5 py-1 rounded-full">{p.category}</span>
               {p.oldPrice && (
                 <span className="absolute top-3 right-3 text-[10px] font-semibold bg-[var(--accent)] text-accent-foreground px-2.5 py-1 rounded-full">
                   -{Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}%
                 </span>
               )}
             </div>
+
             <h3 className="font-display text-lg font-semibold leading-snug flex-1">{p.name}</h3>
             <div className="mt-3 flex items-baseline gap-2">
               <span className="text-xl font-semibold text-primary">{KSH(p.price)}</span>
