@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import heroImg from "@/assets/hero-botanical.jpg";
 import leafSprig from "@/assets/leaf-sprig.png";
@@ -206,19 +206,28 @@ function ProductsGrid({ items, active }: { items: typeof PRODUCTS; active: Categ
               )}
             </div>
 
-            <h3 className="font-display text-lg font-semibold leading-snug flex-1">{p.name}</h3>
+            <Link to="/products/$slug" params={{ slug: p.slug }} className="font-display text-lg font-semibold leading-snug flex-1 hover:text-primary transition">{p.name}</Link>
             <div className="mt-3 flex items-baseline gap-2">
               <span className="text-xl font-semibold text-primary">{KSH(p.price)}</span>
               {p.oldPrice && <span className="text-sm text-muted-foreground line-through">{KSH(p.oldPrice)}</span>}
             </div>
-            <a
-              href={`${WHATSAPP.split("?")[0]}?text=${encodeURIComponent(`Hello BF Suma, I'd like to order: ${p.name}`)}`}
-              target="_blank"
-              rel="noopener"
-              className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground py-2.5 text-sm font-medium hover:opacity-90 transition"
-            >
-              <MessageCircle className="w-4 h-4" /> Order
-            </a>
+            <div className="mt-4 flex gap-2">
+              <Link
+                to="/products/$slug"
+                params={{ slug: p.slug }}
+                className="flex-1 inline-flex items-center justify-center rounded-full border border-primary/30 bg-card py-2.5 text-sm font-medium hover:bg-secondary transition"
+              >
+                View
+              </Link>
+              <a
+                href={`${WHATSAPP.split("?")[0]}?text=${encodeURIComponent(`Hello BF Suma, I'd like to order: ${p.name}`)}`}
+                target="_blank"
+                rel="noopener"
+                className="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-primary text-primary-foreground py-2.5 text-sm font-medium hover:opacity-90 transition"
+              >
+                <MessageCircle className="w-4 h-4" /> Order
+              </a>
+            </div>
           </article>
         ))}
       </div>
