@@ -161,9 +161,13 @@
     color: var(--color-foreground);
     font-family: var(--font-body);
     background-image:
-      radial-gradient(at 12% 18%, oklch(0.9 0.05 130 / 0.4) 0px, transparent 50%),
-      radial-gradient(at 88% 82%, oklch(0.88 0.06 60 / 0.35) 0px, transparent 50%);
+      linear-gradient(oklch(0.98 0.012 95 / 0.88), oklch(0.98 0.012 95 / 0.92)),
+      url('/src/assets/fruity-bg.jpg');
+    background-attachment: fixed, fixed;
+    background-size: cover, 720px auto;
+    background-repeat: no-repeat, repeat;
   }
+
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
