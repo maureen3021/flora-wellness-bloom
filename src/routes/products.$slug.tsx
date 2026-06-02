@@ -43,7 +43,7 @@ function NotFound() {
 
 function ProductDetail() {
   const { product: p } = Route.useLoaderData() as { product: Product };
-  const img = CATEGORY_IMAGES[p.category];
+  const img = p.image;
   const discount = p.oldPrice ? Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100) : 0;
   const related = PRODUCTS.filter((x) => x.category === p.category && x.slug !== p.slug).slice(0, 4);
   const orderUrl = `${WHATSAPP.split("?")[0]}?text=${encodeURIComponent(`Hello BF Suma, I'd like to order: ${p.name}`)}`;
@@ -146,7 +146,7 @@ function ProductDetail() {
                 className="group rounded-3xl bg-card border border-border/60 p-4 hover:-translate-y-1 hover:shadow-[var(--shadow-bloom)] transition"
               >
                 <div className="aspect-square rounded-2xl overflow-hidden bg-secondary mb-4">
-                  <img src={CATEGORY_IMAGES[r.category]} alt={r.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
+                  <img src={r.image} alt={r.name} className="w-full h-full object-cover group-hover:scale-105 transition duration-700" />
                 </div>
                 <h3 className="font-display font-semibold leading-snug">{r.name}</h3>
                 <div className="mt-2 text-primary font-semibold">{KSH(r.price)}</div>
