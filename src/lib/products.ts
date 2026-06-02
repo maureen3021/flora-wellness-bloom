@@ -286,7 +286,64 @@ const SEED: Seed[] = [
     benefits: ["Fast acting", "Digestive comfort", "Pocket size"] },
 ];
 
-export const PRODUCTS: Product[] = SEED.map((p) => ({ ...p, slug: slugify(p.name) }));
+const PRODUCT_IMAGES: Record<string, string> = {
+  "bf-suma-pure-broken-ganoderma-spores": imgBfSumaSpores,
+  "nmn-duo-release": imgNmnDuo,
+  "pure-broken-ganoderma-spores-60-s": imgSpores60,
+  "nmn-sharp-mind": imgNmnSharp,
+  "pure-broken-ganoderma-spores": imgSpores,
+  "ntdiarr-pills-50-s": imgNtdiarr50,
+  "pure-broken-ganoderma-spores-oil-capsules": imgSporesOil,
+  "refined-yunzhi-essence": imgYunzhi,
+  "quad-reishi-capsules": imgQuadReishi,
+  "ntdiarr-pills": imgNtdiarr,
+  "sleep-beauty": imgSleepBeauty,
+  "detoxilive-pro-oil-capsules": imgDetoxPro,
+  "detoxilive-capsules": imgDetox,
+  "micro2-cycle-tablets": imgMicro2,
+  "gymeffect": imgGym,
+  "cerebrain": imgCerebrain,
+  "reliving-tea": imgRelivingTea,
+  "ez-xlim": imgEzXlim,
+  "veggie-veggie": imgVeggie,
+  "elements": imgElements,
+  "probio3-strawberry-flavor-30-s": imgProbio3,
+  "novel-depile-capsules": imgNovelDepile,
+  "constirelax-oral-solution": imgConstiRelax,
+  "prostatrelax-capsules": imgProstat,
+  "x-power-man-capsules-new": imgXPowerMan,
+  "blueberry-chewable-tablets-for-sharp-vision": imgBlueberry,
+  "calcium-vitamin-d3-milk-tablets-strawberry-flavour": imgCalciumD3,
+  "vitamin-c-chewable-tablets": imgVitaminC,
+  "femicalcium-d3": imgFemicalcium,
+  "femibiotics": imgFemibiotics,
+  "youth-essence-facial-cream": imgYeCream,
+  "youth-essence-facial-mask": imgYeMask,
+  "youth-essence-toner": imgYeToner,
+  "youth-essence-lotion": imgYeLotion,
+  "youth-refreshing-facial-cleanser": imgYeCleanser,
+  "youth-ever": imgYouthEver,
+  "feminergy-capsules": imgFeminergy,
+  "femivitamin-tablets": imgFemiVitamin,
+  "femicare-feminine-cleanser": imgFemiCare,
+  "arthroxtra-tablets": imgArthroXtra,
+  "gluzojoint-f-capsules": imgGluzoF,
+  "gluzojoint-ultra-pro": imgGluzoUltra,
+  "zaminocal-plus-capsules": imgZaminoCal,
+  "x-power-coffee": imgXPowerCoffee,
+  "4-in-1-cordyceps-coffee": imgCordycepsCoffee,
+  "4-in-1-ginseng-coffee": imgGinsengCoffee,
+  "4-in-1-reishi-coffee": imgReishiCoffee,
+  "dr-ts-toothpaste": imgToothpaste,
+  "coolroll-1-dozen": imgCoolroll,
+  "anatic-herbal-essence-soap": imgAnaticSoap,
+  "ntdiarr-pills-1-dozen": imgNtdiarrDozen,
+};
+
+export const PRODUCTS: Product[] = SEED.map((p) => {
+  const slug = slugify(p.name);
+  return { ...p, slug, image: PRODUCT_IMAGES[slug] ?? CATEGORY_IMAGES[p.category] };
+});
 
 export const getProductBySlug = (slug: string) => PRODUCTS.find((p) => p.slug === slug);
 
