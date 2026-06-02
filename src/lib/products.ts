@@ -8,6 +8,59 @@ import womenImg from "@/assets/products/women.jpg";
 import livingImg from "@/assets/products/living.jpg";
 import othersImg from "@/assets/products/others.jpg";
 
+// Per-product images (slug-keyed)
+import imgBfSumaSpores from "@/assets/products/items/bf-suma-pure-broken-ganoderma-spores.jpg";
+import imgNmnDuo from "@/assets/products/items/nmn-duo-release.jpg";
+import imgSpores60 from "@/assets/products/items/pure-broken-ganoderma-spores-60-s.jpg";
+import imgNmnSharp from "@/assets/products/items/nmn-sharp-mind.jpg";
+import imgSpores from "@/assets/products/items/pure-broken-ganoderma-spores.jpg";
+import imgNtdiarr50 from "@/assets/products/items/ntdiarr-pills-50-s.jpg";
+import imgSporesOil from "@/assets/products/items/pure-broken-ganoderma-spores-oil-capsules.jpg";
+import imgYunzhi from "@/assets/products/items/refined-yunzhi-essence.jpg";
+import imgQuadReishi from "@/assets/products/items/quad-reishi-capsules.jpg";
+import imgNtdiarr from "@/assets/products/items/ntdiarr-pills.jpg";
+import imgSleepBeauty from "@/assets/products/items/sleep-beauty.jpg";
+import imgDetoxPro from "@/assets/products/items/detoxilive-pro-oil-capsules.jpg";
+import imgDetox from "@/assets/products/items/detoxilive-capsules.jpg";
+import imgMicro2 from "@/assets/products/items/micro2-cycle-tablets.jpg";
+import imgGym from "@/assets/products/items/gymeffect.jpg";
+import imgCerebrain from "@/assets/products/items/cerebrain.jpg";
+import imgRelivingTea from "@/assets/products/items/reliving-tea.jpg";
+import imgEzXlim from "@/assets/products/items/ez-xlim.jpg";
+import imgVeggie from "@/assets/products/items/veggie-veggie.jpg";
+import imgElements from "@/assets/products/items/elements.jpg";
+import imgProbio3 from "@/assets/products/items/probio3-strawberry-flavor-30-s.jpg";
+import imgNovelDepile from "@/assets/products/items/novel-depile-capsules.jpg";
+import imgConstiRelax from "@/assets/products/items/constirelax-oral-solution.jpg";
+import imgProstat from "@/assets/products/items/prostatrelax-capsules.jpg";
+import imgXPowerMan from "@/assets/products/items/x-power-man-capsules-new.jpg";
+import imgBlueberry from "@/assets/products/items/blueberry-chewable-tablets-for-sharp-vision.jpg";
+import imgCalciumD3 from "@/assets/products/items/calcium-vitamin-d3-milk-tablets-strawberry-flavour.jpg";
+import imgVitaminC from "@/assets/products/items/vitamin-c-chewable-tablets.jpg";
+import imgFemicalcium from "@/assets/products/items/femicalcium-d3.jpg";
+import imgFemibiotics from "@/assets/products/items/femibiotics.jpg";
+import imgYeCream from "@/assets/products/items/youth-essence-facial-cream.jpg";
+import imgYeMask from "@/assets/products/items/youth-essence-facial-mask.jpg";
+import imgYeToner from "@/assets/products/items/youth-essence-toner.jpg";
+import imgYeLotion from "@/assets/products/items/youth-essence-lotion.jpg";
+import imgYeCleanser from "@/assets/products/items/youth-refreshing-facial-cleanser.jpg";
+import imgYouthEver from "@/assets/products/items/youth-ever.jpg";
+import imgFeminergy from "@/assets/products/items/feminergy-capsules.jpg";
+import imgFemiVitamin from "@/assets/products/items/femivitamin-tablets.jpg";
+import imgFemiCare from "@/assets/products/items/femicare-feminine-cleanser.jpg";
+import imgArthroXtra from "@/assets/products/items/arthroxtra-tablets.jpg";
+import imgGluzoF from "@/assets/products/items/gluzojoint-f-capsules.jpg";
+import imgGluzoUltra from "@/assets/products/items/gluzojoint-ultra-pro.jpg";
+import imgZaminoCal from "@/assets/products/items/zaminocal-plus-capsules.jpg";
+import imgXPowerCoffee from "@/assets/products/items/x-power-coffee.jpg";
+import imgCordycepsCoffee from "@/assets/products/items/4-in-1-cordyceps-coffee.jpg";
+import imgGinsengCoffee from "@/assets/products/items/4-in-1-ginseng-coffee.jpg";
+import imgReishiCoffee from "@/assets/products/items/4-in-1-reishi-coffee.jpg";
+import imgToothpaste from "@/assets/products/items/dr-ts-toothpaste.jpg";
+import imgCoolroll from "@/assets/products/items/coolroll-1-dozen.jpg";
+import imgAnaticSoap from "@/assets/products/items/anatic-herbal-essence-soap.jpg";
+import imgNtdiarrDozen from "@/assets/products/items/ntdiarr-pills-1-dozen.jpg";
+
 export type Product = {
   name: string;
   price: number;
@@ -16,7 +69,9 @@ export type Product = {
   slug: string;
   description: string;
   benefits: string[];
+  image: string;
 };
+
 
 export type Category =
   | "Immune Booster"
@@ -231,7 +286,64 @@ const SEED: Seed[] = [
     benefits: ["Fast acting", "Digestive comfort", "Pocket size"] },
 ];
 
-export const PRODUCTS: Product[] = SEED.map((p) => ({ ...p, slug: slugify(p.name) }));
+const PRODUCT_IMAGES: Record<string, string> = {
+  "bf-suma-pure-broken-ganoderma-spores": imgBfSumaSpores,
+  "nmn-duo-release": imgNmnDuo,
+  "pure-broken-ganoderma-spores-60-s": imgSpores60,
+  "nmn-sharp-mind": imgNmnSharp,
+  "pure-broken-ganoderma-spores": imgSpores,
+  "ntdiarr-pills-50-s": imgNtdiarr50,
+  "pure-broken-ganoderma-spores-oil-capsules": imgSporesOil,
+  "refined-yunzhi-essence": imgYunzhi,
+  "quad-reishi-capsules": imgQuadReishi,
+  "ntdiarr-pills": imgNtdiarr,
+  "sleep-beauty": imgSleepBeauty,
+  "detoxilive-pro-oil-capsules": imgDetoxPro,
+  "detoxilive-capsules": imgDetox,
+  "micro2-cycle-tablets": imgMicro2,
+  "gymeffect": imgGym,
+  "cerebrain": imgCerebrain,
+  "reliving-tea": imgRelivingTea,
+  "ez-xlim": imgEzXlim,
+  "veggie-veggie": imgVeggie,
+  "elements": imgElements,
+  "probio3-strawberry-flavor-30-s": imgProbio3,
+  "novel-depile-capsules": imgNovelDepile,
+  "constirelax-oral-solution": imgConstiRelax,
+  "prostatrelax-capsules": imgProstat,
+  "x-power-man-capsules-new": imgXPowerMan,
+  "blueberry-chewable-tablets-for-sharp-vision": imgBlueberry,
+  "calcium-vitamin-d3-milk-tablets-strawberry-flavour": imgCalciumD3,
+  "vitamin-c-chewable-tablets": imgVitaminC,
+  "femicalcium-d3": imgFemicalcium,
+  "femibiotics": imgFemibiotics,
+  "youth-essence-facial-cream": imgYeCream,
+  "youth-essence-facial-mask": imgYeMask,
+  "youth-essence-toner": imgYeToner,
+  "youth-essence-lotion": imgYeLotion,
+  "youth-refreshing-facial-cleanser": imgYeCleanser,
+  "youth-ever": imgYouthEver,
+  "feminergy-capsules": imgFeminergy,
+  "femivitamin-tablets": imgFemiVitamin,
+  "femicare-feminine-cleanser": imgFemiCare,
+  "arthroxtra-tablets": imgArthroXtra,
+  "gluzojoint-f-capsules": imgGluzoF,
+  "gluzojoint-ultra-pro": imgGluzoUltra,
+  "zaminocal-plus-capsules": imgZaminoCal,
+  "x-power-coffee": imgXPowerCoffee,
+  "4-in-1-cordyceps-coffee": imgCordycepsCoffee,
+  "4-in-1-ginseng-coffee": imgGinsengCoffee,
+  "4-in-1-reishi-coffee": imgReishiCoffee,
+  "dr-ts-toothpaste": imgToothpaste,
+  "coolroll-1-dozen": imgCoolroll,
+  "anatic-herbal-essence-soap": imgAnaticSoap,
+  "ntdiarr-pills-1-dozen": imgNtdiarrDozen,
+};
+
+export const PRODUCTS: Product[] = SEED.map((p) => {
+  const slug = slugify(p.name);
+  return { ...p, slug, image: PRODUCT_IMAGES[slug] ?? CATEGORY_IMAGES[p.category] };
+});
 
 export const getProductBySlug = (slug: string) => PRODUCTS.find((p) => p.slug === slug);
 

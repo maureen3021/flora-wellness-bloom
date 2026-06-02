@@ -191,7 +191,7 @@ function ProductsGrid({ items, active }: { items: typeof PRODUCTS; active: Categ
           <article key={p.name} className="group rounded-3xl bg-card border border-border/60 p-5 shadow-[var(--shadow-soft)] hover:-translate-y-1 hover:shadow-[var(--shadow-bloom)] transition flex flex-col">
             <div className="relative aspect-square rounded-2xl mb-5 overflow-hidden bg-secondary">
               <img
-                src={CATEGORY_IMAGES[p.category]}
+                src={p.image}
                 alt={p.name}
                 width={768}
                 height={768}
