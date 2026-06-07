@@ -7,45 +7,50 @@ import {
   staticFile,
   Img,
   Sequence,
-  Series,
 } from "remotion";
 import { loadFont } from "@remotion/google-fonts/PlayfairDisplay";
 import { loadFont as loadFont2 } from "@remotion/google-fonts/Inter";
 
 const { fontFamily: playfair } = loadFont("normal", {
-  weights: ["400", "700"],
+  weights: ["400", "700", "900"],
   subsets: ["latin"],
 });
-
 const { fontFamily: inter } = loadFont2("normal", {
-  weights: ["400", "600"],
+  weights: ["400", "600", "800"],
   subsets: ["latin"],
 });
 
-/* ============ SCENE 1: Brand Intro (0-90 frames) ============ */
+/* ============ SCENE 1: Brand Intro (0-75 frames) ============ */
 function Scene1() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const brandOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" });
+  const brandOpacity = interpolate(frame, [0, 18], [0, 1], { extrapolateRight: "clamp" });
   const brandY = interpolate(frame, [0, 25], [30, 0], { extrapolateRight: "clamp" });
-  const brandScale = spring({ frame, fps, config: { damping: 20, stiffness: 150 } });
+  const titleScale = spring({ frame: frame - 10, fps, config: { damping: 14, stiffness: 110 } });
+  const descOpacity = interpolate(frame, [40, 65], [0, 1], { extrapolateRight: "clamp" });
 
-  const lineWidth = interpolate(frame, [25, 50], [0, 120], { extrapolateRight: "clamp" });
-
-  const productOpacity = interpolate(frame, [35, 60], [0, 1], { extrapolateRight: "clamp" });
-  const productY = interpolate(frame, [35, 65], [25, 0], { extrapolateRight: "clamp" });
-
-  const descOpacity = interpolate(frame, [60, 85], [0, 1], { extrapolateRight: "clamp" });
+  // Soap teaser zooming in from background
+  const soapScale = interpolate(frame, [0, 75], [0.4, 1.1], { extrapolateRight: "clamp" });
+  const soapOpacity = interpolate(frame, [10, 45], [0, 0.35], { extrapolateRight: "clamp" });
 
   return (
-    <AbsoluteFill style={{ background: "linear-gradient(180deg, #f8faf5 0%, #eef4e8 100%)" }}>
-      {/* Decorative floating bubbles */}
-      <Bubble x={80} y={200} size={40} delay={0} frame={frame} />
-      <Bubble x={900} y={400} size={60} delay={5} frame={frame} />
-      <Bubble x={150} y={700} size={35} delay={10} frame={frame} />
-      <Bubble x={850} y={900} size={50} delay={15} frame={frame} />
-      <Bubble x={500} y={1200} size={45} delay={8} frame={frame} />
+    <AbsoluteFill style={{ background: "radial-gradient(circle at 50% 60%, #4a2e0e 0%, #1a0f04 100%)" }}>
+      {/* Soap silhouette teaser */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          opacity: soapOpacity,
+          transform: `scale(${soapScale})`,
+          filter: "blur(8px)",
+        }}
+      >
+        <Img src={staticFile("images/soap-honey.png")} style={{ width: 1100, height: 1100, objectFit: "contain" }} />
+      </div>
 
       <div
         style={{
@@ -55,22 +60,18 @@ function Scene1() {
           justifyContent: "center",
           height: "100%",
           padding: "0 60px",
+          position: "relative",
+          zIndex: 2,
         }}
       >
-        <div
-          style={{
-            opacity: brandOpacity,
-            transform: `translateY(${brandY}px) scale(${0.9 + brandScale * 0.1})`,
-            textAlign: "center",
-          }}
-        >
+        <div style={{ opacity: brandOpacity, transform: `translateY(${brandY}px)`, textAlign: "center" }}>
           <span
             style={{
               fontFamily: inter,
-              fontSize: 28,
-              fontWeight: 600,
-              letterSpacing: "0.35em",
-              color: "#5a7a3a",
+              fontSize: 32,
+              fontWeight: 800,
+              letterSpacing: "0.4em",
+              color: "#f5c45e",
               textTransform: "uppercase",
             }}
           >
@@ -80,28 +81,21 @@ function Scene1() {
 
         <div
           style={{
-            width: lineWidth,
-            height: 2,
-            background: "linear-gradient(90deg, transparent, #7a9e4f, transparent)",
-            margin: "20px 0",
-          }}
-        />
-
-        <div
-          style={{
-            opacity: productOpacity,
-            transform: `translateY(${productY}px)`,
+            opacity: brandOpacity,
+            transform: `scale(${0.85 + titleScale * 0.15})`,
             textAlign: "center",
+            marginTop: 40,
           }}
         >
           <h1
             style={{
               fontFamily: playfair,
-              fontSize: 72,
-              fontWeight: 700,
-              color: "#2d3a1e",
-              lineHeight: 1.15,
+              fontSize: 130,
+              fontWeight: 900,
+              color: "#fff8e7",
+              lineHeight: 1,
               margin: 0,
+              textShadow: "0 6px 30px rgba(245,196,94,0.4)",
             }}
           >
             Anatic
@@ -109,11 +103,12 @@ function Scene1() {
           <h2
             style={{
               fontFamily: playfair,
-              fontSize: 48,
+              fontSize: 56,
               fontWeight: 400,
-              color: "#4a5e32",
+              fontStyle: "italic",
+              color: "#f5c45e",
               lineHeight: 1.2,
-              margin: "8px 0 0 0",
+              margin: "12px 0 0 0",
             }}
           >
             Herbal Essence Soap
@@ -124,214 +119,224 @@ function Scene1() {
           style={{
             opacity: descOpacity,
             fontFamily: inter,
-            fontSize: 30,
-            color: "#6b7f52",
-            marginTop: 30,
+            fontSize: 32,
+            color: "#e8d5a8",
+            marginTop: 40,
             textAlign: "center",
-            lineHeight: 1.5,
           }}
         >
-          Nature's gentle touch for your skin
+          Drenched in nature's gold
         </p>
       </div>
     </AbsoluteFill>
   );
 }
 
-/* ============ SCENE 2: Product Showcase (90-240 frames) ============ */
+/* ============ Honey Drip overlay ============ */
+function HoneyDrips({ frame }: { frame: number }) {
+  const drips = [
+    { x: 120, delay: 0, length: 280, w: 22 },
+    { x: 320, delay: 12, length: 380, w: 28 },
+    { x: 520, delay: 6, length: 240, w: 20 },
+    { x: 720, delay: 18, length: 340, w: 26 },
+    { x: 920, delay: 3, length: 300, w: 24 },
+  ];
+  return (
+    <>
+      {drips.map((d, i) => {
+        const f = frame - d.delay;
+        const h = interpolate(f, [0, 40], [0, d.length], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+        const dropY = interpolate(f, [25, 70], [0, 600], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+        const dropOpacity = interpolate(f, [25, 30, 65, 70], [0, 1, 1, 0], { extrapolateRight: "clamp" });
+        return (
+          <div key={i}>
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: d.x,
+                width: d.w,
+                height: h,
+                background: "linear-gradient(180deg, #f5b842 0%, #d99220 80%, #b87810 100%)",
+                borderRadius: `0 0 ${d.w}px ${d.w}px`,
+                boxShadow: "inset -4px 0 8px rgba(184,120,16,0.6), inset 4px 0 6px rgba(255,220,140,0.5)",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                top: h + dropY,
+                left: d.x - 4,
+                width: d.w + 8,
+                height: d.w + 12,
+                background: "radial-gradient(circle at 35% 35%, #ffd97a, #d99220 70%, #a06808)",
+                borderRadius: "50%",
+                opacity: dropOpacity,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+              }}
+            />
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+/* ============ SCENE 2: Close-up Soap with Honey (75-225 frames) ============ */
 function Scene2() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const sceneFrame = frame; // relative to this sequence start
 
-  // Soap image animations
-  const soapScale = spring({
-    frame: sceneFrame - 10,
-    fps,
-    config: { damping: 15, stiffness: 80, mass: 1.5 },
-  });
-  const soapY = interpolate(sceneFrame, [0, 30], [100, 0], { extrapolateRight: "clamp" });
-  const soapOpacity = interpolate(sceneFrame, [0, 25], [0, 1], { extrapolateRight: "clamp" });
+  // Close-up zoom
+  const soapScale = interpolate(frame, [0, 40, 150], [1.3, 1.55, 1.65], { extrapolateRight: "clamp" });
+  const soapOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" });
+  const soapX = interpolate(frame, [0, 150], [-20, 20], { extrapolateRight: "clamp" });
 
-  // Size label animations
-  const sizeOpacity = interpolate(sceneFrame, [30, 55], [0, 1], { extrapolateRight: "clamp" });
-  const sizeX = interpolate(sceneFrame, [30, 55], [-40, 0], { extrapolateRight: "clamp" });
+  // Top label
+  const labelOpacity = interpolate(frame, [10, 30], [0, 1], { extrapolateRight: "clamp" });
 
-  // Smoothness label animations
-  const smoothOpacity = interpolate(sceneFrame, [55, 80], [0, 1], { extrapolateRight: "clamp" });
-  const smoothX = interpolate(sceneFrame, [55, 80], [40, 0], { extrapolateRight: "clamp" });
+  // Size badge
+  const sizeSpring = spring({ frame: frame - 50, fps, config: { damping: 12, stiffness: 140 } });
+  const sizeOpacity = interpolate(frame, [50, 70], [0, 1], { extrapolateRight: "clamp" });
 
-  // Glow pulse for smoothness
-  const glowIntensity = interpolate(
-    sceneFrame,
-    [80, 100, 120, 140],
-    [0, 1, 1, 0.3],
-    { extrapolateRight: "clamp" }
-  );
-
-  // Bottom info bar
-  const barY = interpolate(sceneFrame, [90, 120], [80, 0], { extrapolateRight: "clamp" });
-  const barOpacity = interpolate(sceneFrame, [90, 120], [0, 1], { extrapolateRight: "clamp" });
+  // Smoothness badge
+  const smoothSpring = spring({ frame: frame - 70, fps, config: { damping: 12, stiffness: 140 } });
+  const smoothOpacity = interpolate(frame, [70, 90], [0, 1], { extrapolateRight: "clamp" });
 
   return (
-    <AbsoluteFill style={{ background: "linear-gradient(180deg, #f8faf5 0%, #eef4e8 100%)" }}>
-      {/* Decorative elements */}
-      <Bubble x={100} y={300} size={30} delay={0} frame={sceneFrame} />
-      <Bubble x={900} y={600} size={45} delay={5} frame={sceneFrame} />
-      <Bubble x={200} y={1100} size={35} delay={10} frame={sceneFrame} />
-      <Bubble x={800} y={1400} size={40} delay={8} frame={sceneFrame} />
+    <AbsoluteFill style={{ background: "linear-gradient(180deg, #2d1808 0%, #1a0f04 100%)", overflow: "hidden" }}>
+      {/* Honey drips from top */}
+      <HoneyDrips frame={frame} />
+
+      {/* Close-up soap */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          opacity: soapOpacity,
+          transform: `scale(${soapScale}) translateX(${soapX}px)`,
+        }}
+      >
+        <Img
+          src={staticFile("images/soap-honey.png")}
+          style={{
+            width: 1000,
+            height: 1000,
+            objectFit: "contain",
+            filter: "drop-shadow(0 30px 60px rgba(0,0,0,0.6))",
+          }}
+        />
+      </div>
 
       {/* Top label */}
       <div
         style={{
           position: "absolute",
-          top: 80,
+          top: 90,
           width: "100%",
           textAlign: "center",
-          opacity: interpolate(sceneFrame, [0, 20], [0, 1], { extrapolateRight: "clamp" }),
+          opacity: labelOpacity,
+          zIndex: 5,
         }}
       >
         <span
           style={{
             fontFamily: inter,
-            fontSize: 24,
-            fontWeight: 600,
-            letterSpacing: "0.25em",
-            color: "#5a7a3a",
+            fontSize: 28,
+            fontWeight: 800,
+            letterSpacing: "0.35em",
+            color: "#f5c45e",
             textTransform: "uppercase",
+            background: "rgba(26,15,4,0.7)",
+            padding: "14px 30px",
+            borderRadius: 50,
+            border: "2px solid rgba(245,196,94,0.4)",
           }}
         >
-          Discover the Difference
+          Pure Honey Infusion
         </span>
       </div>
 
-      {/* Soap product image */}
+      {/* Size badge - bottom left */}
       <div
         style={{
           position: "absolute",
-          top: 320,
-          left: "50%",
-          transform: `translateX(-50%) translateY(${soapY}px) scale(${0.85 + soapScale * 0.15})`,
-          opacity: soapOpacity,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            width: 520,
-            height: 520,
-            borderRadius: "50%",
-            background: `radial-gradient(circle, rgba(122,158,79,${0.1 + glowIntensity * 0.15}) 0%, transparent 70%)`,
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            transition: "none",
-          }}
-        />
-        <Img
-          src={staticFile("images/soap.png")}
-          style={{
-            width: 480,
-            height: 480,
-            objectFit: "contain",
-            position: "relative",
-            zIndex: 2,
-          }}
-        />
-      </div>
-
-      {/* Size badge - left */}
-      <div
-        style={{
-          position: "absolute",
-          left: 60,
-          top: 900,
+          left: 50,
+          bottom: 380,
           opacity: sizeOpacity,
-          transform: `translateX(${sizeX}px)`,
+          transform: `scale(${0.7 + sizeSpring * 0.3})`,
+          zIndex: 5,
         }}
       >
         <div
           style={{
-            background: "rgba(255,255,255,0.85)",
-            backdropFilter: "blur(8px)",
-            borderRadius: 28,
-            padding: "28px 36px",
-            border: "1px solid rgba(122,158,79,0.25)",
-            boxShadow: "0 8px 32px rgba(90,122,58,0.12)",
+            background: "linear-gradient(135deg, #f5c45e 0%, #d99220 100%)",
+            borderRadius: 24,
+            padding: "24px 32px",
+            boxShadow: "0 12px 40px rgba(245,196,94,0.4)",
+            border: "3px solid #fff8e7",
           }}
         >
           <span
             style={{
               fontFamily: inter,
-              fontSize: 20,
-              fontWeight: 600,
-              color: "#5a7a3a",
-              letterSpacing: "0.1em",
+              fontSize: 18,
+              fontWeight: 800,
+              color: "#1a0f04",
+              letterSpacing: "0.15em",
               textTransform: "uppercase",
               display: "block",
-              marginBottom: 6,
             }}
           >
-            Generous Size
+            Full Size
           </span>
           <span
             style={{
               fontFamily: playfair,
-              fontSize: 42,
-              fontWeight: 700,
-              color: "#2d3a1e",
+              fontSize: 64,
+              fontWeight: 900,
+              color: "#1a0f04",
+              lineHeight: 1,
             }}
           >
             100g
           </span>
-          <span
-            style={{
-              fontFamily: inter,
-              fontSize: 20,
-              color: "#6b7f52",
-              display: "block",
-              marginTop: 4,
-            }}
-          >
-            Full-size bar
-          </span>
         </div>
       </div>
 
-      {/* Smoothness badge - right */}
+      {/* Smoothness badge - top right */}
       <div
         style={{
           position: "absolute",
-          right: 60,
-          top: 1050,
+          right: 50,
+          bottom: 280,
           opacity: smoothOpacity,
-          transform: `translateX(${smoothX}px)`,
+          transform: `scale(${0.7 + smoothSpring * 0.3})`,
+          zIndex: 5,
         }}
       >
         <div
           style={{
-            background: "rgba(255,255,255,0.85)",
-            backdropFilter: "blur(8px)",
-            borderRadius: 28,
-            padding: "28px 36px",
-            border: "1px solid rgba(122,158,79,0.25)",
-            boxShadow: "0 8px 32px rgba(90,122,58,0.12)",
+            background: "rgba(255,248,231,0.95)",
+            borderRadius: 24,
+            padding: "24px 32px",
+            boxShadow: "0 12px 40px rgba(0,0,0,0.4)",
+            border: "3px solid #f5c45e",
             textAlign: "right",
           }}
         >
           <span
             style={{
               fontFamily: inter,
-              fontSize: 20,
-              fontWeight: 600,
-              color: "#5a7a3a",
-              letterSpacing: "0.1em",
+              fontSize: 18,
+              fontWeight: 800,
+              color: "#7a4a08",
+              letterSpacing: "0.15em",
               textTransform: "uppercase",
               display: "block",
-              marginBottom: 6,
             }}
           >
             Silky Smooth
@@ -339,122 +344,57 @@ function Scene2() {
           <span
             style={{
               fontFamily: playfair,
-              fontSize: 42,
+              fontSize: 44,
               fontWeight: 700,
-              color: "#2d3a1e",
+              color: "#2d1808",
+              lineHeight: 1.1,
             }}
           >
-            Botanical
+            Honey Glow
           </span>
-          <span
-            style={{
-              fontFamily: inter,
-              fontSize: 20,
-              color: "#6b7f52",
-              display: "block",
-              marginTop: 4,
-            }}
-          >
-            Rich, creamy lather
-          </span>
-        </div>
-      </div>
-
-      {/* Bottom benefits bar */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 100,
-          left: 50,
-          right: 50,
-          opacity: barOpacity,
-          transform: `translateY(${barY}px)`,
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 30,
-            background: "rgba(255,255,255,0.8)",
-            backdropFilter: "blur(8px)",
-            borderRadius: 24,
-            padding: "24px 40px",
-            border: "1px solid rgba(122,158,79,0.2)",
-          }}
-        >
-          {["Gentle Cleanse", "Herbal Soothing", "Daily Refresh"].map((text, i) => (
-            <div
-              key={text}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                opacity: interpolate(sceneFrame, [100 + i * 8, 120 + i * 8], [0, 1], { extrapolateRight: "clamp" }),
-              }}
-            >
-              <div
-                style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: "50%",
-                  background: "#7a9e4f",
-                  flexShrink: 0,
-                }}
-              />
-              <span
-                style={{
-                  fontFamily: inter,
-                  fontSize: 22,
-                  color: "#4a5e32",
-                  fontWeight: 500,
-                }}
-              >
-                {text}
-              </span>
-            </div>
-          ))}
         </div>
       </div>
     </AbsoluteFill>
   );
 }
 
-/* ============ SCENE 3: CTA / Price (240-330 frames) ============ */
+/* ============ SCENE 3: BOLD PRICE GRID (225-330 frames) ============ */
 function Scene3() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
-  const sceneFrame = frame;
 
-  const bgOpacity = interpolate(sceneFrame, [0, 25], [0, 1], { extrapolateRight: "clamp" });
+  const bgOpacity = interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" });
 
-  const priceScale = spring({
-    frame: sceneFrame - 15,
-    fps,
-    config: { damping: 12, stiffness: 120, mass: 1.2 },
-  });
+  // Big price card
+  const priceSpring = spring({ frame: frame - 5, fps, config: { damping: 11, stiffness: 130 } });
+  const priceOpacity = interpolate(frame, [5, 25], [0, 1], { extrapolateRight: "clamp" });
 
-  const ctaOpacity = interpolate(sceneFrame, [40, 65], [0, 1], { extrapolateRight: "clamp" });
-  const ctaY = interpolate(sceneFrame, [40, 65], [30, 0], { extrapolateRight: "clamp" });
+  // Soap product small
+  const soapOpacity = interpolate(frame, [20, 40], [0, 1], { extrapolateRight: "clamp" });
+  const soapY = interpolate(frame, [20, 45], [40, 0], { extrapolateRight: "clamp" });
 
-  const smallSoapOpacity = interpolate(sceneFrame, [10, 35], [0, 1], { extrapolateRight: "clamp" });
-  const smallSoapY = interpolate(sceneFrame, [10, 35], [50, 0], { extrapolateRight: "clamp" });
+  // Grid cells stagger
+  const cells = [
+    { label: "Price", value: "348", unit: "KSh", big: true },
+    { label: "Size", value: "100", unit: "g" },
+    { label: "Honey", value: "Pure", unit: "Infused" },
+    { label: "Skin", value: "All", unit: "Types" },
+  ];
 
-  // Subtle floating animation for the soap
-  const floatY = Math.sin(sceneFrame * 0.08) * 8;
+  // Pulse for big price
+  const pulse = 1 + Math.sin(frame * 0.15) * 0.02;
 
   return (
     <AbsoluteFill
       style={{
-        background: "linear-gradient(180deg, #2d3a1e 0%, #1a2410 100%)",
+        background: "linear-gradient(180deg, #1a0f04 0%, #2d1808 50%, #1a0f04 100%)",
         opacity: bgOpacity,
       }}
     >
-      {/* Decorative bubbles on dark bg */}
-      <Bubble x={120} y={250} size={25} delay={0} frame={sceneFrame} dark />
-      <Bubble x={880} y={450} size={40} delay={5} frame={sceneFrame} dark />
-      <Bubble x={180} y={950} size={30} delay={10} frame={sceneFrame} dark />
-      <Bubble x={800} y={1300} size={35} delay={8} frame={sceneFrame} dark />
+      {/* Honey drip accent at top */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 80 }}>
+        <HoneyDrips frame={frame} />
+      </div>
 
       <div
         style={{
@@ -463,175 +403,139 @@ function Scene3() {
           alignItems: "center",
           justifyContent: "center",
           height: "100%",
-          padding: "0 60px",
+          padding: "100px 60px",
+          gap: 30,
         }}
       >
-        {/* Small soap image floating */}
-        <div
-          style={{
-            opacity: smallSoapOpacity,
-            transform: `translateY(${smallSoapY + floatY}px)`,
-            marginBottom: 40,
-          }}
-        >
+        {/* Soap thumb */}
+        <div style={{ opacity: soapOpacity, transform: `translateY(${soapY}px)` }}>
           <Img
-            src={staticFile("images/soap.png")}
-            style={{
-              width: 280,
-              height: 280,
-              objectFit: "contain",
-            }}
+            src={staticFile("images/soap-honey.png")}
+            style={{ width: 300, height: 300, objectFit: "contain", filter: "drop-shadow(0 10px 30px rgba(245,196,94,0.5))" }}
           />
         </div>
 
-        {/* Product name */}
         <h2
           style={{
             fontFamily: playfair,
-            fontSize: 44,
-            fontWeight: 400,
-            color: "#b8d49a",
+            fontSize: 42,
+            fontStyle: "italic",
+            color: "#f5c45e",
             margin: 0,
-            opacity: interpolate(sceneFrame, [20, 40], [0, 1], { extrapolateRight: "clamp" }),
+            opacity: soapOpacity,
+            textAlign: "center",
           }}
         >
           Anatic Herbal Essence Soap
         </h2>
 
-        {/* Price */}
+        {/* 2x2 GRID */}
         <div
           style={{
-            marginTop: 30,
-            transform: `scale(${0.7 + priceScale * 0.3})`,
-            opacity: interpolate(sceneFrame, [15, 35], [0, 1], { extrapolateRight: "clamp" }),
-            textAlign: "center",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gridTemplateRows: "auto auto",
+            gap: 16,
+            width: "100%",
+            maxWidth: 960,
+            marginTop: 10,
           }}
         >
-          <span
-            style={{
-              fontFamily: inter,
-              fontSize: 28,
-              color: "#8faa6e",
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-            }}
-          >
-            Only
-          </span>
-          <div
-            style={{
-              fontFamily: playfair,
-              fontSize: 96,
-              fontWeight: 700,
-              color: "#ffffff",
-              lineHeight: 1,
-              margin: "12px 0",
-            }}
-          >
-            348 KSh
-          </div>
+          {cells.map((c, i) => {
+            const cellSpring = spring({ frame: frame - (15 + i * 8), fps, config: { damping: 13, stiffness: 150 } });
+            const cellOp = interpolate(frame, [15 + i * 8, 35 + i * 8], [0, 1], { extrapolateRight: "clamp" });
+            const isBig = c.big;
+            return (
+              <div
+                key={c.label}
+                style={{
+                  gridColumn: isBig ? "1 / span 2" : undefined,
+                  opacity: cellOp,
+                  transform: `scale(${0.85 + cellSpring * 0.15}) ${isBig ? `scale(${pulse})` : ""}`,
+                  background: isBig
+                    ? "linear-gradient(135deg, #f5c45e 0%, #e0a830 50%, #b87810 100%)"
+                    : "rgba(255,248,231,0.08)",
+                  border: isBig ? "4px solid #fff8e7" : "2px solid rgba(245,196,94,0.5)",
+                  borderRadius: 28,
+                  padding: isBig ? "40px 50px" : "32px 40px",
+                  textAlign: "center",
+                  boxShadow: isBig
+                    ? "0 20px 60px rgba(245,196,94,0.5), inset 0 2px 20px rgba(255,255,255,0.3)"
+                    : "0 8px 24px rgba(0,0,0,0.3)",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: inter,
+                    fontSize: isBig ? 28 : 20,
+                    fontWeight: 800,
+                    color: isBig ? "#1a0f04" : "#f5c45e",
+                    letterSpacing: "0.25em",
+                    textTransform: "uppercase",
+                    marginBottom: isBig ? 12 : 8,
+                  }}
+                >
+                  {c.label}
+                </div>
+                <div
+                  style={{
+                    fontFamily: playfair,
+                    fontSize: isBig ? 160 : 56,
+                    fontWeight: 900,
+                    color: isBig ? "#1a0f04" : "#fff8e7",
+                    lineHeight: 0.95,
+                    textShadow: isBig ? "0 4px 12px rgba(0,0,0,0.2)" : "none",
+                  }}
+                >
+                  {c.value}
+                </div>
+                <div
+                  style={{
+                    fontFamily: inter,
+                    fontSize: isBig ? 44 : 24,
+                    fontWeight: 800,
+                    color: isBig ? "#1a0f04" : "#e8d5a8",
+                    marginTop: 4,
+                    letterSpacing: "0.1em",
+                  }}
+                >
+                  {c.unit}
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        {/* CTA */}
-        <div
-          style={{
-            opacity: ctaOpacity,
-            transform: `translateY(${ctaY}px)`,
-            marginTop: 50,
-          }}
-        >
-          <div
-            style={{
-              background: "linear-gradient(135deg, #7a9e4f, #5a7a3a)",
-              borderRadius: 60,
-              padding: "26px 70px",
-              boxShadow: "0 12px 40px rgba(90,122,58,0.4)",
-            }}
-          >
-            <span
-              style={{
-                fontFamily: inter,
-                fontSize: 32,
-                fontWeight: 600,
-                color: "#ffffff",
-                letterSpacing: "0.08em",
-              }}
-            >
-              Order on WhatsApp
-            </span>
-          </div>
-        </div>
-
-        {/* Bottom tagline */}
         <p
           style={{
             fontFamily: inter,
-            fontSize: 22,
-            color: "#7a8f5e",
-            marginTop: 50,
-            opacity: interpolate(sceneFrame, [60, 85], [0, 1], { extrapolateRight: "clamp" }),
+            fontSize: 24,
+            fontWeight: 600,
+            color: "#f5c45e",
+            marginTop: 10,
+            opacity: interpolate(frame, [60, 80], [0, 1], { extrapolateRight: "clamp" }),
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
           }}
         >
-          BF Suma Kenya • Premium Botanical Wellness
+          BF Suma Kenya
         </p>
       </div>
     </AbsoluteFill>
   );
 }
 
-/* ============ Bubble helper ============ */
-function Bubble({
-  x,
-  y,
-  size,
-  delay,
-  frame,
-  dark = false,
-}: {
-  x: number;
-  y: number;
-  size: number;
-  delay: number;
-  frame: number;
-  dark?: boolean;
-}) {
-  const f = frame - delay;
-  const float = Math.sin(f * 0.06) * 15;
-  const opacity = interpolate(f, [0, 15, 100, 130], [0, 0.4, 0.4, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-
-  return (
-    <div
-      style={{
-        position: "absolute",
-        left: x,
-        top: y + float,
-        width: size,
-        height: size,
-        borderRadius: "50%",
-        background: dark
-          ? "radial-gradient(circle at 30% 30%, rgba(184,212,154,0.3), rgba(122,158,79,0.1))"
-          : "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.7), rgba(200,220,180,0.3))",
-        opacity,
-        border: dark ? "1px solid rgba(184,212,154,0.15)" : "1px solid rgba(255,255,255,0.5)",
-      }}
-    />
-  );
-}
-
-/* ============ Main Video ============ */
+/* ============ Main ============ */
 export function MainVideo() {
   return (
     <AbsoluteFill>
-      <Sequence from={0} durationInFrames={90}>
+      <Sequence from={0} durationInFrames={75}>
         <Scene1 />
       </Sequence>
-      <Sequence from={90} durationInFrames={150}>
+      <Sequence from={75} durationInFrames={150}>
         <Scene2 />
       </Sequence>
-      <Sequence from={240} durationInFrames={90}>
+      <Sequence from={225} durationInFrames={105}>
         <Scene3 />
       </Sequence>
     </AbsoluteFill>
