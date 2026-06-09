@@ -34,11 +34,11 @@ await renderMedia({
   composition,
   serveUrl: bundled,
   codec: "h264",
-  outputLocation: "/mnt/documents/anatic-soap-ad.mp4",
+  outputLocation: "/mnt/documents/femibiotics-ad.mp4",
   puppeteerInstance: browser,
   muted: true,
   concurrency: 1,
 });
 
 await browser.close({ silent: false });
-console.log("Done! Output: /mnt/documents/anatic-soap-ad.mp4");
+console.log("Done! Output: /mnt/documents/femibiotics-ad.mp4");
