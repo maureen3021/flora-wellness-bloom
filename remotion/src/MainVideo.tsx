@@ -25,32 +25,30 @@ const { fontFamily: cormorant } = loadFont3("normal", {
   subsets: ["latin"],
 });
 
-/* ===== Shared palette (rose-gold + champagne + deep mauve) ===== */
+/* Navy + gold palette */
 const C = {
-  rose: "#e9b6c4",
-  blush: "#fbe4ec",
-  champagne: "#f7e7c8",
-  gold: "#c9a25b",
-  goldLight: "#e8c98a",
-  deep: "#3a1024",
-  mauve: "#7a2a4d",
-  cream: "#fff7f1",
+  deep: "#040d2b",
+  navy: "#0b1d4a",
+  blue: "#1a3a8a",
+  ice: "#9ec6ff",
+  sky: "#cfe3ff",
+  gold: "#d4af37",
+  goldLight: "#f4d97a",
+  cream: "#fff7e3",
 };
 
-/* === Floating petals & sparkles === */
-function Petals({ frame, count = 22 }: { frame: number; count?: number }) {
+/* === Cool mist / snowflake particles === */
+function Mist({ frame, count = 24 }: { frame: number; count?: number }) {
   return (
     <>
       {Array.from({ length: count }).map((_, i) => {
-        const seed = i * 137.5;
-        const x = (seed % 1080);
-        const speed = 0.35 + ((i % 5) * 0.18);
+        const seed = i * 127.3;
+        const x = (seed * 11) % 1080;
+        const speed = 0.4 + ((i % 5) * 0.2);
         const y = ((frame * speed * 6) + seed * 3) % 2400 - 200;
-        const sway = Math.sin((frame + i * 20) * 0.04) * 50;
-        const rot = (frame * 1.5 + i * 30) % 360;
-        const size = 16 + (i % 4) * 8;
-        const op = 0.4 + (i % 3) * 0.18;
-        const isGold = i % 3 === 0;
+        const sway = Math.sin((frame + i * 19) * 0.04) * 60;
+        const size = 14 + (i % 4) * 10;
+        const op = 0.25 + (i % 3) * 0.15;
         return (
           <div
             key={i}
@@ -59,16 +57,12 @@ function Petals({ frame, count = 22 }: { frame: number; count?: number }) {
               left: x + sway,
               top: y,
               width: size,
-              height: size * 1.4,
-              background: isGold
-                ? "radial-gradient(ellipse at 50% 30%, #fff3d6, #c9a25b 85%)"
-                : i % 2 === 0
-                ? "radial-gradient(ellipse at 50% 30%, #ffd6e3, #e76b9b 85%)"
-                : "radial-gradient(ellipse at 50% 30%, #fff0dc, #d4a574 85%)",
-              borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
-              transform: `rotate(${rot}deg)`,
+              height: size,
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, rgba(207,227,255,0.85), rgba(207,227,255,0) 70%)",
               opacity: op,
-              filter: "blur(0.4px)",
+              filter: "blur(2px)",
             }}
           />
         );
@@ -77,14 +71,14 @@ function Petals({ frame, count = 22 }: { frame: number; count?: number }) {
   );
 }
 
-function Sparkles({ frame, count = 30 }: { frame: number; count?: number }) {
+function GoldSparkles({ frame, count = 30 }: { frame: number; count?: number }) {
   return (
     <>
       {Array.from({ length: count }).map((_, i) => {
         const seed = i * 91.7;
         const x = (seed * 13) % 1080;
         const y = (seed * 29) % 1920;
-        const phase = (frame * 0.06 + i * 0.7) % (Math.PI * 2);
+        const phase = (frame * 0.07 + i * 0.7) % (Math.PI * 2);
         const tw = (Math.sin(phase) + 1) / 2;
         const size = 3 + (i % 4) * 2;
         return (
@@ -97,11 +91,12 @@ function Sparkles({ frame, count = 30 }: { frame: number; count?: number }) {
               width: size,
               height: size,
               borderRadius: "50%",
-              background: i % 2 === 0 ? "#fff6dc" : "#ffd9e6",
-              boxShadow: i % 2 === 0
-                ? "0 0 12px 2px rgba(255,225,150,0.9)"
-                : "0 0 10px 2px rgba(255,180,210,0.8)",
-              opacity: tw * 0.95,
+              background: i % 3 === 0 ? "#cfe3ff" : "#f4d97a",
+              boxShadow:
+                i % 3 === 0
+                  ? "0 0 12px 2px rgba(207,227,255,0.95)"
+                  : "0 0 12px 2px rgba(244,217,122,0.9)",
+              opacity: tw,
             }}
           />
         );
@@ -110,46 +105,7 @@ function Sparkles({ frame, count = 30 }: { frame: number; count?: number }) {
   );
 }
 
-/* Pink/gold capsules to show what's "inside" */
-function Capsule({
-  x, y, rot, scale = 1, frame, delay = 0,
-}: { x: number; y: number; rot: number; scale?: number; frame: number; delay?: number }) {
-  const float = Math.sin((frame + delay) * 0.05) * 14;
-  const spin = rot + Math.sin((frame + delay) * 0.02) * 8;
-  return (
-    <div
-      style={{
-        position: "absolute",
-        left: x,
-        top: y + float,
-        transform: `rotate(${spin}deg) scale(${scale})`,
-        width: 240,
-        height: 90,
-        borderRadius: 999,
-        background:
-          "linear-gradient(90deg, #fff 0%, #fff 50%, #f4b9cf 50%, #d77ba0 100%)",
-        boxShadow:
-          "0 14px 30px rgba(122,42,77,0.35), inset 0 4px 10px rgba(255,255,255,0.7), inset 0 -6px 14px rgba(122,42,77,0.15)",
-        border: "2px solid rgba(255,255,255,0.9)",
-      }}
-    >
-      {/* Gloss highlight */}
-      <div
-        style={{
-          position: "absolute",
-          top: 10,
-          left: 18,
-          right: 18,
-          height: 14,
-          borderRadius: 999,
-          background: "linear-gradient(90deg, rgba(255,255,255,0.85), rgba(255,255,255,0))",
-        }}
-      />
-    </div>
-  );
-}
-
-/* ============ SCENE 1: Intro — "For Her" (0-90) ============ */
+/* ============ SCENE 1: Intro (0-90) ============ */
 function Scene1() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -158,25 +114,24 @@ function Scene1() {
   const brandY = interpolate(frame, [0, 25], [20, 0], { extrapolateRight: "clamp" });
   const titleSpring = spring({ frame: frame - 14, fps, config: { damping: 14, stiffness: 110 } });
   const subOp = interpolate(frame, [50, 75], [0, 1], { extrapolateRight: "clamp" });
-  const lineW = interpolate(frame, [30, 70], [0, 320], { extrapolateRight: "clamp" });
+  const lineW = interpolate(frame, [30, 70], [0, 340], { extrapolateRight: "clamp" });
 
   return (
     <AbsoluteFill
       style={{
         background:
-          "radial-gradient(circle at 30% 15%, #fce6ef 0%, #f4a8c6 30%, #a04571 70%, #3a1024 100%)",
+          "radial-gradient(circle at 30% 15%, #1a3a8a 0%, #0b1d4a 45%, #040d2b 100%)",
       }}
     >
-      <Sparkles frame={frame} count={28} />
-      <Petals frame={frame} count={14} />
+      <GoldSparkles frame={frame} count={32} />
+      <Mist frame={frame} count={18} />
 
-      {/* Gold shimmer overlay */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse at 50% 80%, rgba(232,201,138,0.35) 0%, transparent 55%)",
+            "radial-gradient(ellipse at 50% 80%, rgba(212,175,55,0.28) 0%, transparent 55%)",
         }}
       />
 
@@ -199,12 +154,12 @@ function Scene1() {
               fontSize: 28,
               fontWeight: 800,
               letterSpacing: "0.6em",
-              color: C.champagne,
+              color: C.goldLight,
               textTransform: "uppercase",
-              textShadow: "0 2px 14px rgba(58,16,36,0.6)",
+              textShadow: "0 2px 14px rgba(4,13,43,0.7)",
             }}
           >
-            BF SUMA · LUXE
+            BF SUMA · HERBAL
           </span>
         </div>
 
@@ -228,35 +183,34 @@ function Scene1() {
           <h1
             style={{
               fontFamily: cormorant,
-              fontSize: 200,
+              fontSize: 220,
               fontWeight: 500,
-              color: C.cream,
               lineHeight: 0.92,
               margin: 0,
               fontStyle: "italic",
-              textShadow: "0 10px 50px rgba(58,16,36,0.6)",
-              background: `linear-gradient(180deg, #fff7f1 0%, ${C.goldLight} 100%)`,
+              background: `linear-gradient(180deg, #fff7e3 0%, ${C.goldLight} 60%, ${C.gold} 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
+              textShadow: "0 12px 50px rgba(4,13,43,0.8)",
             }}
           >
-            Femi
+            Cool
           </h1>
           <h1
             style={{
               fontFamily: cormorant,
-              fontSize: 200,
+              fontSize: 220,
               fontWeight: 500,
               lineHeight: 0.92,
               margin: 0,
               fontStyle: "italic",
-              textShadow: "0 10px 50px rgba(58,16,36,0.6)",
-              background: `linear-gradient(180deg, #fff7f1 0%, ${C.goldLight} 100%)`,
+              background: `linear-gradient(180deg, #fff7e3 0%, ${C.goldLight} 60%, ${C.gold} 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
+              textShadow: "0 12px 50px rgba(4,13,43,0.8)",
             }}
           >
-            Biotics
+            Roll
           </h1>
         </div>
 
@@ -266,21 +220,21 @@ function Scene1() {
             fontFamily: inter,
             fontSize: 30,
             fontWeight: 300,
-            color: C.cream,
+            color: C.sky,
             marginTop: 50,
             textAlign: "center",
             letterSpacing: "0.35em",
             textTransform: "uppercase",
           }}
         >
-          ✦ Wellness, refined for her ✦
+          ✦ Instant relief, anywhere ✦
         </p>
       </div>
     </AbsoluteFill>
   );
 }
 
-/* ============ SCENE 2: Show the inside (90-225) ============ */
+/* ============ SCENE 2: Benefits + product (90-225) ============ */
 function Scene2() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -289,31 +243,27 @@ function Scene2() {
   const prodSpring = spring({ frame: frame - 5, fps, config: { damping: 14, stiffness: 100 } });
   const prodFloat = Math.sin(frame * 0.05) * 14;
 
-  // Capsules pour in
-  const capsulesIn = interpolate(frame, [25, 70], [0, 1], { extrapolateRight: "clamp" });
-
   const labelOp = interpolate(frame, [25, 50], [0, 1], { extrapolateRight: "clamp" });
 
-  // Benefit cards — bigger, more visible
   const benefits = [
-    { text: "Gut Balance", sub: "Live Probiotics", side: "left", top: 360, icon: "✿" },
-    { text: "Immunity Boost", sub: "Vitamin C + Zinc", side: "right", top: 540, icon: "✦" },
-    { text: "Feminine Care", sub: "pH Harmony", side: "left", top: 720, icon: "❀" },
-    { text: "Daily Glow", sub: "Skin · Energy · Mood", side: "right", top: 900, icon: "✧" },
+    { text: "Headache Relief", sub: "Calms tension fast", side: "left", top: 360, icon: "✦" },
+    { text: "Beats Dizziness", sub: "Refresh & re-center", side: "right", top: 540, icon: "❄" },
+    { text: "Cooling Menthol", sub: "Instant icy comfort", side: "left", top: 720, icon: "✧" },
+    { text: "On-the-Go", sub: "Pocket. Purse. Travel.", side: "right", top: 900, icon: "✿" },
   ];
 
   return (
     <AbsoluteFill
       style={{
         background:
-          "linear-gradient(180deg, #fff5f8 0%, #fde0ec 35%, #f4b9d0 75%, #d77ba0 100%)",
+          "linear-gradient(180deg, #e8f1ff 0%, #b8d3ff 35%, #5b88d9 75%, #1a3a8a 100%)",
         overflow: "hidden",
       }}
     >
-      <Sparkles frame={frame + 100} count={26} />
-      <Petals frame={frame + 200} count={10} />
+      <GoldSparkles frame={frame + 100} count={26} />
+      <Mist frame={frame + 200} count={14} />
 
-      {/* Soft circle accent */}
+      {/* Concentric gold rings */}
       <div
         style={{
           position: "absolute",
@@ -323,7 +273,7 @@ function Scene2() {
           height: 940,
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(255,255,255,0.75) 0%, rgba(255,247,225,0.25) 50%, rgba(255,255,255,0) 75%)",
+            "radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(244,217,122,0.18) 50%, rgba(255,255,255,0) 75%)",
           transform: `translate(-50%, -50%) scale(${bgGradient})`,
         }}
       />
@@ -335,7 +285,7 @@ function Scene2() {
           width: 720,
           height: 720,
           borderRadius: "50%",
-          border: `2px dashed ${C.gold}66`,
+          border: `2px dashed ${C.gold}88`,
           transform: `translate(-50%, -50%) rotate(${frame * 0.3}deg)`,
         }}
       />
@@ -347,7 +297,7 @@ function Scene2() {
           width: 820,
           height: 820,
           borderRadius: "50%",
-          border: `1px solid ${C.gold}55`,
+          border: `1px solid ${C.gold}66`,
           transform: `translate(-50%, -50%) rotate(${-frame * 0.2}deg)`,
         }}
       />
@@ -369,36 +319,17 @@ function Scene2() {
             fontSize: 22,
             fontWeight: 800,
             letterSpacing: "0.45em",
-            color: C.mauve,
+            color: C.navy,
             textTransform: "uppercase",
-            background: "rgba(255,255,255,0.92)",
+            background: "rgba(255,255,255,0.95)",
             padding: "16px 36px",
             borderRadius: 50,
             border: `2px solid ${C.gold}`,
-            boxShadow: "0 8px 24px rgba(122,42,77,0.18)",
+            boxShadow: "0 8px 24px rgba(11,29,74,0.25)",
           }}
         >
-          ✦ What's Inside ✦
+          ✦ Why You'll Love It ✦
         </span>
-      </div>
-
-      {/* Capsules pouring from the bottle */}
-      <div
-        style={{
-          position: "absolute",
-          top: 480,
-          left: 0,
-          right: 0,
-          height: 500,
-          opacity: capsulesIn,
-          zIndex: 3,
-        }}
-      >
-        <Capsule frame={frame} x={120} y={20} rot={-22} scale={0.9} delay={0} />
-        <Capsule frame={frame} x={720} y={60} rot={28} scale={0.85} delay={20} />
-        <Capsule frame={frame} x={80} y={240} rot={15} scale={1} delay={40} />
-        <Capsule frame={frame} x={760} y={300} rot={-12} scale={0.95} delay={60} />
-        <Capsule frame={frame} x={420} y={380} rot={5} scale={1.05} delay={80} />
       </div>
 
       {/* Product image */}
@@ -415,18 +346,18 @@ function Scene2() {
         }}
       >
         <Img
-          src={staticFile("images/femibiotics.jpg")}
+          src={staticFile("images/coolroll.jpg")}
           style={{
             width: 700,
             height: 700,
             objectFit: "contain",
             filter:
-              "drop-shadow(0 24px 50px rgba(122,42,77,0.5)) drop-shadow(0 0 30px rgba(232,201,138,0.4))",
+              "drop-shadow(0 24px 50px rgba(11,29,74,0.55)) drop-shadow(0 0 30px rgba(244,217,122,0.45))",
           }}
         />
       </div>
 
-      {/* Benefit cards — pill style, with icon + subline */}
+      {/* Benefit cards */}
       {benefits.map((b, i) => {
         const delay = 30 + i * 14;
         const s = spring({ frame: frame - delay, fps, config: { damping: 12, stiffness: 130 } });
@@ -443,11 +374,11 @@ function Scene2() {
               opacity: op,
               transform: `translateX(${x}px) scale(${0.82 + s * 0.18})`,
               background:
-                "linear-gradient(135deg, #ffffff 0%, #fff0f5 70%, #ffe2c8 100%)",
+                "linear-gradient(135deg, #ffffff 0%, #eaf2ff 70%, #fff5d0 100%)",
               padding: "20px 30px 20px 22px",
               borderRadius: 28,
               boxShadow:
-                "0 14px 38px rgba(122,42,77,0.28), inset 0 1px 0 rgba(255,255,255,0.9)",
+                "0 14px 38px rgba(11,29,74,0.32), inset 0 1px 0 rgba(255,255,255,0.9)",
               border: `2px solid ${C.gold}`,
               display: "flex",
               alignItems: "center",
@@ -465,9 +396,10 @@ function Scene2() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "#fff",
+                color: C.navy,
                 fontSize: 28,
-                boxShadow: "inset 0 -3px 6px rgba(122,42,77,0.25), 0 4px 10px rgba(201,162,91,0.4)",
+                boxShadow:
+                  "inset 0 -3px 6px rgba(11,29,74,0.25), 0 4px 10px rgba(212,175,55,0.5)",
               }}
             >
               {b.icon}
@@ -489,9 +421,9 @@ function Scene2() {
               <span
                 style={{
                   fontFamily: inter,
-                  fontSize: 17,
+                  fontSize: 16,
                   fontWeight: 600,
-                  color: C.mauve,
+                  color: C.blue,
                   marginTop: 4,
                   letterSpacing: "0.18em",
                   textTransform: "uppercase",
@@ -507,7 +439,7 @@ function Scene2() {
   );
 }
 
-/* ============ SCENE 3: Price + CTA (225-360) ============ */
+/* ============ SCENE 3: Importance + CTA (225-390) ============ */
 function Scene3() {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -516,30 +448,35 @@ function Scene3() {
   const prodOp = interpolate(frame, [10, 35], [0, 1], { extrapolateRight: "clamp" });
   const prodY = interpolate(frame, [10, 40], [40, 0], { extrapolateRight: "clamp" });
 
-  const priceSpring = spring({ frame: frame - 25, fps, config: { damping: 11, stiffness: 130 } });
+  const priceSpring = spring({ frame: frame - 55, fps, config: { damping: 11, stiffness: 130 } });
   const pulse = 1 + Math.sin(frame * 0.18) * 0.02;
 
-  const ctaOp = interpolate(frame, [70, 95], [0, 1], { extrapolateRight: "clamp" });
-  const taglineOp = interpolate(frame, [50, 75], [0, 1], { extrapolateRight: "clamp" });
+  const ctaOp = interpolate(frame, [95, 120], [0, 1], { extrapolateRight: "clamp" });
+
+  // Importance lines stagger
+  const lines = [
+    "Long days. Sharp focus.",
+    "Travel sickness, gone.",
+    "A wellness essential in every bag.",
+  ];
 
   return (
     <AbsoluteFill
       style={{
         background:
-          "radial-gradient(ellipse at 50% 30%, #7a2a4d 0%, #4a1530 60%, #2a0a1c 100%)",
+          "radial-gradient(ellipse at 50% 30%, #1a3a8a 0%, #0b1d4a 55%, #040d2b 100%)",
         opacity: bgOp,
       }}
     >
-      <Sparkles frame={frame + 300} count={32} />
-      <Petals frame={frame + 400} count={12} />
+      <GoldSparkles frame={frame + 300} count={32} />
+      <Mist frame={frame + 400} count={14} />
 
-      {/* Gold rim glow */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(201,162,91,0.18) 70%, transparent 100%)",
+            "radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(212,175,55,0.18) 70%, transparent 100%)",
         }}
       />
 
@@ -551,20 +488,20 @@ function Scene3() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: "80px 60px",
-          gap: 26,
+          padding: "70px 60px",
+          gap: 22,
           zIndex: 5,
         }}
       >
         <div style={{ opacity: prodOp, transform: `translateY(${prodY}px)` }}>
           <Img
-            src={staticFile("images/femibiotics.jpg")}
+            src={staticFile("images/coolroll.jpg")}
             style={{
-              width: 340,
-              height: 340,
+              width: 320,
+              height: 320,
               objectFit: "contain",
               filter:
-                "drop-shadow(0 18px 42px rgba(0,0,0,0.6)) drop-shadow(0 0 28px rgba(232,201,138,0.5))",
+                "drop-shadow(0 18px 42px rgba(0,0,0,0.6)) drop-shadow(0 0 28px rgba(244,217,122,0.55))",
             }}
           />
         </div>
@@ -579,87 +516,94 @@ function Scene3() {
             opacity: prodOp,
             textAlign: "center",
             lineHeight: 1,
-            background: `linear-gradient(180deg, #fff7f1 0%, ${C.goldLight} 100%)`,
+            background: `linear-gradient(180deg, #fff7e3 0%, ${C.goldLight} 100%)`,
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
         >
-          FemiBiotics
+          Cool Roll
         </h2>
 
-        <p
-          style={{
-            fontFamily: inter,
-            fontSize: 24,
-            fontWeight: 300,
-            color: C.champagne,
-            margin: 0,
-            opacity: taglineOp,
-            textAlign: "center",
-            letterSpacing: "0.18em",
-            maxWidth: 800,
-            textTransform: "uppercase",
-          }}
-        >
-          A daily ritual she'll love
-        </p>
+        {/* Importance lines */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center", marginTop: 6 }}>
+          {lines.map((l, i) => {
+            const delay = 30 + i * 14;
+            const op = interpolate(frame, [delay, delay + 18], [0, 1], { extrapolateRight: "clamp" });
+            const y = interpolate(frame, [delay, delay + 22], [12, 0], { extrapolateRight: "clamp" });
+            return (
+              <div
+                key={l}
+                style={{
+                  opacity: op,
+                  transform: `translateY(${y}px)`,
+                  fontFamily: cormorant,
+                  fontSize: 36,
+                  fontStyle: "italic",
+                  color: C.sky,
+                  textAlign: "center",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {l}
+              </div>
+            );
+          })}
+        </div>
 
-        {/* Big price card */}
+        {/* Price card */}
         <div
           style={{
-            opacity: interpolate(frame, [25, 50], [0, 1], { extrapolateRight: "clamp" }),
+            opacity: interpolate(frame, [55, 80], [0, 1], { extrapolateRight: "clamp" }),
             transform: `scale(${(0.85 + priceSpring * 0.15) * pulse})`,
             background:
-              "linear-gradient(135deg, #fff7f1 0%, #ffd9e6 50%, #e8c98a 100%)",
-            border: `4px solid ${C.gold}`,
+              "linear-gradient(135deg, #fff7e3 0%, #f4d97a 60%, #d4af37 100%)",
+            border: `4px solid ${C.cream}`,
             borderRadius: 38,
-            padding: "40px 80px",
+            padding: "32px 70px",
             textAlign: "center",
             boxShadow:
-              "0 26px 80px rgba(0,0,0,0.5), 0 0 50px rgba(232,201,138,0.4), inset 0 2px 24px rgba(255,255,255,0.6)",
+              "0 26px 80px rgba(0,0,0,0.55), 0 0 50px rgba(244,217,122,0.45), inset 0 2px 24px rgba(255,255,255,0.6)",
             marginTop: 6,
             position: "relative",
           }}
         >
-          {/* corner sparkles */}
-          <div style={{ position: "absolute", top: 12, left: 18, color: C.gold, fontSize: 22 }}>✦</div>
-          <div style={{ position: "absolute", top: 12, right: 18, color: C.gold, fontSize: 22 }}>✦</div>
-          <div style={{ position: "absolute", bottom: 12, left: 18, color: C.gold, fontSize: 22 }}>✦</div>
-          <div style={{ position: "absolute", bottom: 12, right: 18, color: C.gold, fontSize: 22 }}>✦</div>
+          <div style={{ position: "absolute", top: 10, left: 16, color: C.navy, fontSize: 20 }}>✦</div>
+          <div style={{ position: "absolute", top: 10, right: 16, color: C.navy, fontSize: 20 }}>✦</div>
+          <div style={{ position: "absolute", bottom: 10, left: 16, color: C.navy, fontSize: 20 }}>✦</div>
+          <div style={{ position: "absolute", bottom: 10, right: 16, color: C.navy, fontSize: 20 }}>✦</div>
 
           <div
             style={{
               fontFamily: inter,
-              fontSize: 22,
+              fontSize: 20,
               fontWeight: 800,
-              color: C.mauve,
+              color: C.navy,
               letterSpacing: "0.45em",
               textTransform: "uppercase",
-              marginBottom: 6,
+              marginBottom: 4,
             }}
           >
-            Indulge from
+            1 Dozen · Only
           </div>
           <div
             style={{
               fontFamily: cormorant,
-              fontSize: 170,
+              fontSize: 150,
               fontWeight: 700,
               color: C.deep,
               lineHeight: 0.9,
               fontStyle: "italic",
-              textShadow: "0 4px 12px rgba(255,255,255,0.4)",
             }}
           >
-            6,480
+            1,896
           </div>
           <div
             style={{
               fontFamily: inter,
-              fontSize: 32,
+              fontSize: 30,
               fontWeight: 800,
-              color: C.mauve,
-              marginTop: 4,
+              color: C.navy,
+              marginTop: 2,
               letterSpacing: "0.3em",
             }}
           >
@@ -673,8 +617,8 @@ function Scene3() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 10,
-            marginTop: 10,
+            gap: 8,
+            marginTop: 4,
           }}
         >
           <span
@@ -682,7 +626,7 @@ function Scene3() {
               fontFamily: inter,
               fontSize: 20,
               fontWeight: 800,
-              color: C.champagne,
+              color: C.goldLight,
               letterSpacing: "0.4em",
               textTransform: "uppercase",
             }}
@@ -703,15 +647,15 @@ function Scene3() {
           <span
             style={{
               fontFamily: inter,
-              fontSize: 16,
+              fontSize: 15,
               fontWeight: 600,
-              color: C.goldLight,
+              color: C.ice,
               letterSpacing: "0.35em",
               textTransform: "uppercase",
-              marginTop: 4,
+              marginTop: 2,
             }}
           >
-            BF Suma Kenya · Luxe Wellness
+            BF Suma Kenya
           </span>
         </div>
       </div>
@@ -729,7 +673,7 @@ export function MainVideo() {
       <Sequence from={90} durationInFrames={135}>
         <Scene2 />
       </Sequence>
-      <Sequence from={225} durationInFrames={135}>
+      <Sequence from={225} durationInFrames={165}>
         <Scene3 />
       </Sequence>
     </AbsoluteFill>
