@@ -16,29 +16,37 @@ const bundled = await bundle({
 
 const browser = await openBrowser("chrome", {
   browserExecutable:
-    process.env.PUPPETEER_EXECUTABLE_PATH ??
-    "/bin/chromium",
+    process.env.PUPPETEER_EXECUTABLE_PATH ?? "/bin/chromium",
   chromiumOptions: {
     args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
   },
   chromeMode: "chrome-for-testing",
 });
 
-const composition = await selectComposition({
-  serveUrl: bundled,
-  id: "main",
-  puppeteerInstance: browser,
-});
+const targets = [
+  { id: "arthroxtra", out: "/mnt/documents/arthroxtra-ad.mp4" },
+  { id: "zaminocal", out: "/mnt/documents/zaminocal-ad.mp4" },
+];
 
-await renderMedia({
-  composition,
-  serveUrl: bundled,
-  codec: "h264",
-  outputLocation: "/mnt/documents/coolroll-ad.mp4",
-  puppeteerInstance: browser,
-  muted: true,
-  concurrency: 1,
-});
+for (const t of targets) {
+  const composition = await selectComposition({
+    serveUrl: bundled,
+    id: t.id,
+    puppeteerInstance: browser,
+  });
+
+  await renderMedia({
+    composition,
+    serveUrl: bundled,
+    codec: "h264",
+    outputLocation: t.out,
+    puppeteerInstance: browser,
+    muted: true,
+    concurrency: 1,
+  });
+
+  console.log("Rendered", t.out);
+}
 
 await browser.close({ silent: false });
-console.log("Done! Output: /mnt/documents/femibiotics-ad.mp4");
+console.log("Done!");
