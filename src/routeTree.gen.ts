@@ -31,32 +31,32 @@ const CategoriesSlugRoute = CategoriesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/categories/$slug': typeof CategoriesSlugRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/categories/$slug': typeof CategoriesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/categories/$slug': typeof CategoriesSlugRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/categories/$slug': typeof CategoriesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/categories/$slug': typeof CategoriesSlugRoute
   '/products/$slug': typeof ProductsSlugRoute
+  '/categories/$slug': typeof CategoriesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/categories/$slug' | '/products/$slug'
+  fullPaths: '/' | '/products/$slug' | '/categories/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/categories/$slug' | '/products/$slug'
-  id: '__root__' | '/' | '/categories/$slug' | '/products/$slug'
+  to: '/' | '/products/$slug' | '/categories/$slug'
+  id: '__root__' | '/' | '/products/$slug' | '/categories/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CategoriesSlugRoute: typeof CategoriesSlugRoute
   ProductsSlugRoute: typeof ProductsSlugRoute
+  CategoriesSlugRoute: typeof CategoriesSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -87,8 +87,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CategoriesSlugRoute: CategoriesSlugRoute,
   ProductsSlugRoute: ProductsSlugRoute,
+  CategoriesSlugRoute: CategoriesSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
