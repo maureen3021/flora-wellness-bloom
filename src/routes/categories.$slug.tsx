@@ -47,7 +47,11 @@ function NotFound() {
 }
 
 function CategoryPage() {
-  const { category, items, blurb } = Route.useLoaderData();
+  const { category, items, blurb } = Route.useLoaderData() as {
+    category: Category;
+    items: typeof PRODUCTS;
+    blurb: string;
+  };
   const heroImg = CATEGORY_IMAGES[category];
   const orderUrl = `${WHATSAPP.split("?")[0]}?text=${encodeURIComponent(`Hello BF Suma, I'd like to know more about ${category} products.`)}`;
 
