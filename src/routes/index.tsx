@@ -64,9 +64,24 @@ function Header() {
           <Phone className="w-4 h-4" /> {PHONE}
         </a>
       </div>
+      <div className="border-t border-border/60 bg-background/60">
+        <div className="mx-auto max-w-7xl px-6 py-2.5 flex gap-2 overflow-x-auto scrollbar-none">
+          {CATEGORIES.map((c) => (
+            <Link
+              key={c.name}
+              to="/categories/$slug"
+              params={{ slug: slugify(c.name) }}
+              className="shrink-0 text-xs md:text-sm rounded-full px-4 py-1.5 border border-border/70 bg-card hover:bg-primary hover:text-primary-foreground hover:border-primary transition"
+            >
+              {c.name}
+            </Link>
+          ))}
+        </div>
+      </div>
     </header>
   );
 }
+
 
 function Hero() {
   return (
