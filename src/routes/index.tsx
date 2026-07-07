@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import heroImg from "@/assets/hero-botanical.jpg";
 import leafSprig from "@/assets/leaf-sprig.png";
-import { CATEGORIES, CATEGORY_IMAGES, PHONE, PRODUCTS, WHATSAPP, type Category } from "@/lib/products";
+import { CATEGORIES, CATEGORY_IMAGES, PHONE, PRODUCTS, WHATSAPP, slugify, type Category } from "@/lib/products";
 import { Phone, MessageCircle, MapPin, Leaf, Sparkles, ShieldCheck, HeartPulse } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -157,9 +157,8 @@ function Categories({ active, onSelect }: { active: Category | "All"; onSelect: 
         {CATEGORIES.map((c, i) => {
           const isActive = active === c.name;
           return (
-            <button
+            <div
               key={c.name}
-              onClick={() => onSelect(c.name)}
               className={`group text-left rounded-3xl p-5 border transition relative overflow-hidden ${
                 isActive ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border/60 hover:border-primary/40"
               }`}
@@ -168,10 +167,26 @@ function Categories({ active, onSelect }: { active: Category | "All"; onSelect: 
               <span className={`text-xs ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>0{i + 1}</span>
               <h3 className="font-display text-lg font-semibold mt-1">{c.name}</h3>
               <p className={`text-xs mt-1 ${isActive ? "text-primary-foreground/80" : "text-muted-foreground"}`}>{c.blurb}</p>
-            </button>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <button
+                  onClick={() => onSelect(c.name)}
+                  className={`text-xs rounded-full px-3 py-1.5 border transition ${isActive ? "bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground" : "border-border hover:bg-secondary"}`}
+                >
+                  Filter
+                </button>
+                <Link
+                  to="/categories/$slug"
+                  params={{ slug: slugify(c.name) }}
+                  className={`text-xs rounded-full px-3 py-1.5 transition ${isActive ? "bg-primary-foreground text-primary" : "bg-primary text-primary-foreground hover:opacity-90"}`}
+                >
+                  Open page →
+                </Link>
+              </div>
+            </div>
           );
         })}
       </div>
+
     </section>
   );
 }
