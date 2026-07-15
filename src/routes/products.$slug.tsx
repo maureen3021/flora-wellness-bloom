@@ -52,11 +52,12 @@ function ProductDetail() {
     <div className="min-h-screen">
       <header className="sticky top-0 z-40 backdrop-blur-md bg-background/75 border-b border-border/60">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2">
-            <span className="grid place-items-center w-10 h-10 rounded-full bg-[var(--gradient-leaf)] text-primary-foreground">
-              <Leaf className="w-5 h-5" />
+          <Link to="/" className="flex items-center gap-3">
+            <img src={bfLogo} alt="BF Suma — Bright Future, Brighter Life" className="w-12 h-12 object-contain" />
+            <span className="flex flex-col leading-tight">
+              <span className="font-display text-xl md:text-2xl font-semibold tracking-tight">Bright Future Pharmaceuticals</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Bright Future, Brighter Life</span>
             </span>
-            <span className="font-display text-2xl font-semibold tracking-tight">BF Suma <span className="text-muted-foreground font-normal">Kenya</span></span>
           </Link>
           <a href={`tel:${PHONE}`} className="hidden sm:inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-5 py-2.5 text-sm font-medium">
             <Phone className="w-4 h-4" /> {PHONE}
