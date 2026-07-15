@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import heroImg from "@/assets/hero-botanical.jpg";
 import leafSprig from "@/assets/leaf-sprig.png";
+import bfLogo from "@/assets/bf-suma-logo.png";
 import { CATEGORIES, CATEGORY_IMAGES, PHONE, PRODUCTS, WHATSAPP, slugify, type Category } from "@/lib/products";
 import { Phone, MessageCircle, MapPin, Leaf, Sparkles, ShieldCheck, HeartPulse } from "lucide-react";
 
@@ -45,11 +46,12 @@ function Header() {
   return (
     <header className="sticky top-0 z-40 backdrop-blur-md bg-background/75 border-b border-border/60">
       <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between gap-4">
-        <a href="#top" className="flex items-center gap-2">
-          <span className="grid place-items-center w-10 h-10 rounded-full bg-[var(--gradient-leaf)] text-primary-foreground">
-            <Leaf className="w-5 h-5" />
+        <a href="#top" className="flex items-center gap-3">
+          <img src={bfLogo} alt="BF Suma — Bright Future, Brighter Life" className="w-12 h-12 object-contain" />
+          <span className="flex flex-col leading-tight">
+            <span className="font-display text-xl md:text-2xl font-semibold tracking-tight">Bright Future Pharmaceuticals</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Bright Future, Brighter Life</span>
           </span>
-          <span className="font-display text-2xl font-semibold tracking-tight">BF Suma <span className="text-muted-foreground font-normal">Kenya</span></span>
         </a>
         <nav className="hidden md:flex items-center gap-8 text-sm">
           <a href="#categories" className="hover:text-primary transition">Categories</a>
@@ -378,11 +380,11 @@ function Footer() {
     <footer className="border-t border-border/60 mt-12">
       <div className="mx-auto max-w-7xl px-6 py-12 grid md:grid-cols-3 gap-8 text-sm">
         <div>
-          <div className="flex items-center gap-2 mb-3">
-            <Leaf className="w-5 h-5 text-[var(--leaf)]" />
-            <span className="font-display text-xl font-semibold">BF Suma Kenya</span>
+          <div className="flex items-center gap-3 mb-3">
+            <img src={bfLogo} alt="BF Suma logo" className="w-10 h-10 object-contain" />
+            <span className="font-display text-xl font-semibold leading-tight">Bright Future<br/>Pharmaceuticals</span>
           </div>
-          <p className="text-muted-foreground">Premium botanical health & wellness products, trusted across Kenya and 50+ global markets.</p>
+          <p className="text-muted-foreground">Bright Future, Brighter Life — premium BF Suma botanical wellness, trusted across Kenya and 50+ global markets.</p>
         </div>
         <div>
           <h4 className="font-semibold mb-3">Contact</h4>
@@ -397,7 +399,7 @@ function Footer() {
           <p className="text-muted-foreground text-xs leading-relaxed">This site does not provide medical advice. Always consult a healthcare professional and follow product labeling.</p>
         </div>
       </div>
-      <div className="border-t border-border/60 py-5 text-center text-xs text-muted-foreground">© {new Date().getFullYear()} BF Suma Kenya. All rights reserved.</div>
+      <div className="border-t border-border/60 py-5 text-center text-xs text-muted-foreground">© {new Date().getFullYear()} Bright Future Pharmaceuticals · BF Suma Kenya. All rights reserved.</div>
     </footer>
   );
 }
