@@ -7,6 +7,18 @@ const CATEGORY_BY_SLUG: Record<string, Category> = Object.fromEntries(
   CATEGORIES.map((c) => [slugify(c.name), c.name]),
 ) as Record<string, Category>;
 
+const CATEGORY_TINT: Record<Category, string> = {
+  "Women's Beauty": "oklch(0.78 0.16 5 / 0.32)", // pink
+  "Suma Fit": "oklch(0.72 0.17 145 / 0.32)", // green (digestive / whole-body)
+  "Immune Booster": "oklch(0.5 0.09 55 / 0.35)", // brown
+  "Men's Power": "oklch(0.62 0.15 245 / 0.32)", // blue
+  "Smart Kids": "oklch(0.78 0.17 55 / 0.35)", // orange
+  "Suma Living": "oklch(0.88 0.16 95 / 0.38)", // yellow
+  "Sport Fit": "oklch(0.7 0.14 200 / 0.28)",
+  "Heart & Blood Fit": "oklch(0.68 0.18 25 / 0.28)",
+  "Others": "oklch(0.9 0.03 95 / 0.2)",
+};
+
 export const Route = createFileRoute("/categories/$slug")({
   loader: ({ params }) => {
     const category = CATEGORY_BY_SLUG[params.slug];
@@ -57,7 +69,13 @@ function CategoryPage() {
   const orderUrl = `${WHATSAPP.split("?")[0]}?text=${encodeURIComponent(`Hello BF Suma, I'd like to know more about ${category} products.`)}`;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      <div
+        aria-hidden
+        className="fixed inset-0 -z-10 pointer-events-none"
+        style={{ background: CATEGORY_TINT[category] }}
+      />
+
       <header className="sticky top-0 z-40 backdrop-blur-md bg-background/75 border-b border-border/60">
         <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-3">
