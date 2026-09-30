@@ -13,6 +13,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Shop authentic BF Suma supplements in Kenya. Immune, beauty, men's power, kids & more. Call 0141612025 or order on WhatsApp." },
       { property: "og:title", content: "BF Suma Kenya — Botanical Health & Wellness" },
       { property: "og:description", content: "Authentic BF Suma supplements delivered across Kenya." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
@@ -73,7 +75,7 @@ function Header() {
               key={c.name}
               to="/categories/$slug"
               params={{ slug: slugify(c.name) }}
-              className="shrink-0 text-xs md:text-sm rounded-full px-4 py-1.5 border border-border/70 bg-card hover:bg-primary hover:text-primary-foreground hover:border-primary transition"
+              className={`shrink-0 text-xs md:text-sm rounded-full px-4 py-1.5 border transition ${c.name === "Digestive" ? "border-digestive bg-digestive-soft text-digestive hover:bg-digestive hover:text-digestive-foreground" : "border-border/70 bg-card hover:bg-primary hover:text-primary-foreground hover:border-primary"}`}
             >
               {c.name}
             </Link>
@@ -177,24 +179,24 @@ function Categories({ active, onSelect }: { active: Category | "All"; onSelect: 
             <div
               key={c.name}
               className={`group text-left rounded-3xl p-5 border transition relative overflow-hidden ${
-                isActive ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border/60 hover:border-primary/40"
+                c.name === "Digestive" ? "bg-digestive-soft text-digestive border-digestive/30 hover:border-digestive" : isActive ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border/60 hover:border-primary/40"
               }`}
             >
-              <Leaf className={`absolute -right-3 -bottom-3 w-20 h-20 opacity-10 group-hover:opacity-20 transition ${isActive ? "text-primary-foreground" : "text-[var(--leaf)]"}`} />
-              <span className={`text-xs ${isActive ? "text-primary-foreground/70" : "text-muted-foreground"}`}>0{i + 1}</span>
+               <Leaf className={`absolute -right-3 -bottom-3 w-20 h-20 opacity-10 group-hover:opacity-20 transition ${isActive && c.name !== "Digestive" ? "text-primary-foreground" : "text-[var(--leaf)]"}`} />
+               <span className={`text-xs ${isActive && c.name !== "Digestive" ? "text-primary-foreground/70" : "text-muted-foreground"}`}>0{i + 1}</span>
               <h3 className="font-display text-lg font-semibold mt-1">{c.name}</h3>
-              <p className={`text-xs mt-1 ${isActive ? "text-primary-foreground/80" : "text-muted-foreground"}`}>{c.blurb}</p>
+               <p className={`text-xs mt-1 ${isActive && c.name !== "Digestive" ? "text-primary-foreground/80" : "text-muted-foreground"}`}>{c.blurb}</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <button
                   onClick={() => onSelect(c.name)}
-                  className={`text-xs rounded-full px-3 py-1.5 border transition ${isActive ? "bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground" : "border-border hover:bg-secondary"}`}
+                   className={`text-xs rounded-full px-3 py-1.5 border transition ${c.name === "Digestive" ? "border-digestive/40 hover:bg-digestive/10" : isActive ? "bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground" : "border-border hover:bg-secondary"}`}
                 >
                   Filter
                 </button>
                 <Link
                   to="/categories/$slug"
                   params={{ slug: slugify(c.name) }}
-                  className={`text-xs rounded-full px-3 py-1.5 transition ${isActive ? "bg-primary-foreground text-primary" : "bg-primary text-primary-foreground hover:opacity-90"}`}
+                   className={`text-xs rounded-full px-3 py-1.5 transition ${c.name === "Digestive" ? "bg-digestive text-digestive-foreground hover:opacity-90" : isActive ? "bg-primary-foreground text-primary" : "bg-primary text-primary-foreground hover:opacity-90"}`}
                 >
                   Open page →
                 </Link>

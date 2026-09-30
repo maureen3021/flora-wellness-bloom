@@ -10,6 +10,7 @@ const CATEGORY_BY_SLUG: Record<string, Category> = Object.fromEntries(
 const CATEGORY_TINT: Record<Category, string> = {
   "Women's Beauty": "oklch(0.78 0.16 5 / 0.32)", // pink
   "Suma Fit": "oklch(0.72 0.17 145 / 0.32)", // green (digestive / whole-body)
+  "Digestive": "var(--digestive-tint)",
   "Immune Booster": "oklch(0.5 0.09 55 / 0.35)", // brown
   "Men's Power": "oklch(0.62 0.15 245 / 0.32)", // blue
   "Smart Kids": "oklch(0.78 0.17 55 / 0.35)", // orange
@@ -24,8 +25,8 @@ export const Route = createFileRoute("/categories/$slug")({
     const category = CATEGORY_BY_SLUG[params.slug];
     if (!category) throw notFound();
     const items = PRODUCTS.filter((p) => p.category === category);
-    const meta = CATEGORIES.find((c) => c.name === category)!;
-    return { category, items, blurb: meta.blurb };
+    const meta = CATEGORIES.find((c) => c.name === category);
+    return { category, items, blurb: meta?.blurb ?? "Explore BF Suma wellness products." };
   },
   head: ({ loaderData }) => {
     const c = loaderData?.category ?? "Category";
@@ -37,6 +38,8 @@ export const Route = createFileRoute("/categories/$slug")({
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
     };
   },
@@ -69,7 +72,7 @@ function CategoryPage() {
   const orderUrl = `${WHATSAPP.split("?")[0]}?text=${encodeURIComponent(`Hello BF Suma, I'd like to know more about ${category} products.`)}`;
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative isolate">
       <div
         aria-hidden
         className="fixed inset-0 -z-10 pointer-events-none"
@@ -124,7 +127,7 @@ function CategoryPage() {
         <div className="relative">
           <div className="absolute -inset-6 bg-[var(--gradient-botanical)] rounded-[3rem] blur-2xl opacity-70" />
           <div className="relative rounded-[2.5rem] overflow-hidden border border-border/60 shadow-[var(--shadow-bloom)] aspect-[4/3]">
-            <img src={heroImg} alt={category} className="w-full h-full object-cover" />
+            <img src={heroImg} alt={`${category} wellness`} width={1200} height={900} className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
