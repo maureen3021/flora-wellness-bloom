@@ -59,6 +59,9 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-digestive: var(--digestive);
+  --color-digestive-foreground: var(--digestive-foreground);
+  --color-digestive-soft: var(--digestive-soft);
 }
 
 :root {
@@ -98,6 +101,10 @@
   --sidebar-ring: oklch(0.55 0.09 145);
 
   --leaf: oklch(0.55 0.1 145);
+  --digestive: oklch(0.38 0.12 152);
+  --digestive-foreground: oklch(0.98 0.01 100);
+  --digestive-soft: oklch(0.92 0.07 150);
+  --digestive-tint: oklch(0.75 0.13 148 / 0.33);
   --bloom: oklch(0.82 0.09 35);
   --gold: oklch(0.72 0.12 75);
   --cream: oklch(0.96 0.025 90);
@@ -145,6 +152,10 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+  --digestive: oklch(0.79 0.12 150);
+  --digestive-foreground: oklch(0.18 0.04 150);
+  --digestive-soft: oklch(0.28 0.06 150);
+  --digestive-tint: oklch(0.5 0.08 150 / 0.33);
 }
 
 @layer base {

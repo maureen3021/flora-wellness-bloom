@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { CATEGORY_IMAGES, PHONE, PRODUCTS, WHATSAPP, getProductBySlug, type Product } from "@/lib/products";
+import { PHONE, PRODUCTS, WHATSAPP, getProductBySlug, slugify, type Product } from "@/lib/products";
 import { ArrowLeft, Check, MessageCircle, Phone, Leaf, ShieldCheck } from "lucide-react";
 import bfLogo from "@/assets/bf-suma-logo.png";
 
@@ -19,6 +19,8 @@ export const Route = createFileRoute("/products/$slug")({
         { name: "description", content: desc },
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
+        { property: "og:type", content: "product" },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
     };
   },
@@ -87,8 +89,8 @@ function ProductDetail() {
 
         <div>
           <Link
-            to="/"
-            hash={`category-${p.category}`}
+             to="/categories/$slug"
+             params={{ slug: slugify(p.category) }}
             className="inline-block text-xs uppercase tracking-[0.25em] text-[var(--leaf)] mb-3"
           >
             {p.category}

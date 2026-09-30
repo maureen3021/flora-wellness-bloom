@@ -7,6 +7,7 @@ import kidsImg from "@/assets/products/kids.jpg";
 import womenImg from "@/assets/products/women.jpg";
 import livingImg from "@/assets/products/living.jpg";
 import othersImg from "@/assets/products/others.jpg";
+import digestiveImg from "@/assets/products/digestive.jpg";
 
 // Per-product images (slug-keyed)
 import imgBfSumaSpores from "@/assets/products/items/bf-suma-pure-broken-ganoderma-spores.jpg";
@@ -78,6 +79,7 @@ export type Category =
   | "Sport Fit"
   | "Heart & Blood Fit"
   | "Suma Fit"
+  | "Digestive"
   | "Men's Power"
   | "Smart Kids"
   | "Women's Beauty"
@@ -89,6 +91,7 @@ export const CATEGORY_IMAGES: Record<Category, string> = {
   "Sport Fit": sportImg,
   "Heart & Blood Fit": heartImg,
   "Suma Fit": fitImg,
+  "Digestive": digestiveImg,
   "Men's Power": menImg,
   "Smart Kids": kidsImg,
   "Women's Beauty": womenImg,
@@ -101,6 +104,7 @@ export const CATEGORIES: { name: Category; blurb: string }[] = [
   { name: "Sport Fit", blurb: "Performance, recovery & endurance." },
   { name: "Heart & Blood Fit", blurb: "Cardiovascular & circulation care." },
   { name: "Suma Fit", blurb: "Whole-body balance & vitality." },
+  { name: "Digestive", blurb: "Gentle support for gut health and digestive comfort." },
   { name: "Men's Power", blurb: "Stamina, vigor & prostate support." },
   { name: "Smart Kids", blurb: "Nutrition for growing minds & bodies." },
   { name: "Women's Beauty", blurb: "Radiance, hormones & skin glow." },
@@ -130,7 +134,7 @@ const SEED: Seed[] = [
   { name: "Pure & Broken Ganoderma Spores", price: 17820, category: "Immune Booster",
     description: "Premium broken-wall ganoderma spore capsules for total immune wellness.",
     benefits: ["Immune resilience", "Antioxidant rich", "Daily vitality"] },
-  { name: "Ntdiarr Pills 50's", price: 486, category: "Immune Booster",
+  { name: "Ntdiarr Pills 50's", price: 486, category: "Digestive",
     description: "Herbal pills (50's) for fast relief of digestive upsets.",
     benefits: ["Fast acting", "Digestive comfort", "50-pill pack"] },
   { name: "Pure Broken Ganoderma Spores Oil Capsules", price: 20736, category: "Immune Booster",
@@ -142,7 +146,7 @@ const SEED: Seed[] = [
   { name: "Quad-Reishi Capsules", price: 5670, category: "Immune Booster",
     description: "Potent reishi complex supporting immunity, sleep and stress balance.",
     benefits: ["Immune support", "Stress balance", "Restful sleep"] },
-  { name: "Ntdiarr Pills", price: 162, category: "Immune Booster",
+  { name: "Ntdiarr Pills", price: 162, category: "Digestive",
     description: "Pocket-size herbal pills for quick digestive relief on the go.",
     benefits: ["Pocket size", "Fast relief", "Herbal"] },
   { name: "Sleep Beauty", price: 2592, category: "Immune Booster",
@@ -173,19 +177,19 @@ const SEED: Seed[] = [
   { name: "Ez-Xlim", price: 8424, category: "Suma Fit",
     description: "Natural weight-management formula that supports metabolism and curbs cravings.",
     benefits: ["Supports metabolism", "Curbs appetite", "Natural ingredients"] },
-  { name: "Veggie Veggie", price: 4860, category: "Suma Fit",
+  { name: "Veggie Veggie", price: 4860, category: "Digestive",
     description: "Tasty greens blend delivering essential vitamins, minerals and fiber daily.",
     benefits: ["Daily greens", "Vitamins & minerals", "Great taste"] },
-  { name: "Elements", price: 4860, category: "Suma Fit",
+  { name: "Elements", price: 4860, category: "Digestive",
     description: "Complete multi-nutrient blend covering daily essentials for whole-body wellness.",
     benefits: ["Complete daily blend", "Whole-body wellness", "Essential nutrients"] },
-  { name: "Probio3 (Strawberry Flavor) 30's", price: 4860, category: "Suma Fit",
+  { name: "Probio3 (Strawberry Flavor) 30's", price: 4860, category: "Digestive",
     description: "Multi-strain probiotic in a delicious strawberry flavor for gut & immune health.",
     benefits: ["Balances gut flora", "Strengthens immunity", "Kid-friendly flavor"] },
   { name: "Novel Depile Capsules", price: 3564, category: "Suma Fit",
     description: "Specialty botanical formula crafted for targeted wellness support.",
     benefits: ["Botanical formula", "Targeted support", "Easy to take"] },
-  { name: "ConstiRelax Oral Solution", price: 4698, category: "Suma Fit",
+  { name: "ConstiRelax Oral Solution", price: 4698, category: "Digestive",
     description: "Gentle herbal oral solution to relieve constipation and support digestion.",
     benefits: ["Gentle relief", "Supports regularity", "Herbal blend"] },
 
@@ -281,7 +285,7 @@ const SEED: Seed[] = [
     benefits: ["Gentle cleanse", "Herbal soothing", "Daily refresh"] },
 
   // Others
-  { name: "NTDiarr Pills (1 Dozen)", price: 1895, category: "Others",
+  { name: "NTDiarr Pills (1 Dozen)", price: 1895, category: "Digestive",
     description: "Fast-acting herbal pills to settle digestive upsets — 1 dozen pack.",
     benefits: ["Fast acting", "Digestive comfort", "Pocket size"] },
 ];
